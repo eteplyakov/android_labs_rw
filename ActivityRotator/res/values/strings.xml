@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Activity Rotator</string>
+    <string name="title_activity_first">First Activity</string>
+    <string name="title_activity_second">Second Activity</string>
+    <string name="title_activity_third">Third Activity</string>
+    <string name="title_activity_fourth">Fourth Activity</string>
+    <string name="first_activity">First Activity</string>
+    <string name="second_activity">Second Activity</string>
+    <string name="third_activity">Third Activity</string>
+    <string name="fourth_activity">Fourth Activity</string>
+
+</resources>
