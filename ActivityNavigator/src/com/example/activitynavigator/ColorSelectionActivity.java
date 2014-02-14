@@ -8,8 +8,8 @@ package com.example.activitynavigator;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.view.Menu;
 import android.view.View;
 
 public class ColorSelectionActivity extends Activity {
@@ -20,35 +20,26 @@ public class ColorSelectionActivity extends Activity {
 		setContentView(R.layout.activity_color_selection);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.color_selection, menu);
-		return true;
+	public static void createIntent(int color, Context packageContext) {
+		Intent intent = new Intent(packageContext, ShowColorActivity.class);
+		intent.putExtra("color", color);
+		packageContext.startActivity(intent);
 	}
 
 	public void onRedButtonClick(View view) {
-		Intent intent = new Intent(this, ShowColorActivity.class);
-		intent.putExtra("color", R.color.red);
-		startActivity(intent);
+		createIntent(R.color.red, this);
 	}
 
 	public void onGreenButtonClick(View view) {
-		Intent intent = new Intent(this, ShowColorActivity.class);
-		intent.putExtra("color", R.color.green);
-		startActivity(intent);
+		createIntent(R.color.green, this);
 	}
 
 	public void onBlueButtonClick(View view) {
-		Intent intent = new Intent(this, ShowColorActivity.class);
-		intent.putExtra("color", R.color.blue);
-		startActivity(intent);
+		createIntent(R.color.blue, this);
 	}
 
 	public void onBlackButtonClick(View view) {
-		Intent intent = new Intent(this, ShowColorActivity.class);
-		intent.putExtra("color", R.color.black);
-		startActivity(intent);
+		createIntent(R.color.black, this);
 	}
 
 }

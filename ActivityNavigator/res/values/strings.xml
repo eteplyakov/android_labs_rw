@@ -2,8 +2,6 @@
 <resources>
 
     <string name="app_name">Activity Navigator</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
     <string name="color_activity_button">Choose color</string>
     <string name="title_activity_color_selection">ColorSelection</string>
     <string name="red_button">Red</string>
@@ -11,12 +9,8 @@
     <string name="blue_button">Blue</string>
     <string name="black_button">Black</string>
     <string name="title_activity_display_color">DisplayColor</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_show_color">ShowColor</string>
     <string name="back_button">Back</string>
     <string name="home_button">Home</string>
-    <string name="title_activity_bla">Bla</string>
-    <string name="title_activity_bla_bla">BlaBla</string>
 
 </resources>
