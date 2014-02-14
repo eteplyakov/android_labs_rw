@@ -10,6 +10,8 @@
     <string name="take_a_foto">Take a photo</string>
     <string name="take_a_video">Take a video</string>
     <string name="record_audio">Record audio</string>
-    <string name="none"></string>
+    <string name="map_error_message">"Something wrong"</string>
+    <string name="app_error_message">"You don't have application to do this"</string>
+    <string name="image">image</string>
 
 </resources>
