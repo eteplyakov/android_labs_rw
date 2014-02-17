@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Layouts for list</string>
+
+    <string name="title">Title should contain long text ellipsized by dots at the end.</string>
+
+    <string name="details">Details should contain long text ellipsized by text fading and should be invisible</string>
+
+</resources>
