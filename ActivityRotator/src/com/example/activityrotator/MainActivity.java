@@ -15,23 +15,23 @@ public class MainActivity extends Activity {
 	}
 
 	public void firstActivityButtonClick(View view) {
-		makeIntent(this, FirstActivity.class);
+		Intent intent = new Intent(this, FirstActivity.class);
+		startActivity(intent);
 	}
 
 	public void secondActivityButtonClick(View view) {
-		makeIntent(this, SecondActivity.class);
+		Intent intent = new Intent(this, SecondActivity.class);
+		startActivity(intent);
 	}
 
 	public void thirdActivityButtonClick(View view) {
-		makeIntent(this, ThirdActivity.class);
+		Intent intent = new Intent(this, ThirdActivity.class);
+		startActivity(intent);
 	}
 
 	public void fourthActivityButtonClick(View view) {
-		makeIntent(this, FourthActivity.class);
-	}
-	private static void makeIntent(Context packageContext, Class<?> cls) {
-		Intent intent = new Intent(packageContext, cls);
-		packageContext.startActivity(intent);
+		Intent intent = new Intent(this, FourthActivity.class);
+		startActivity(intent);
 	}
 
 }

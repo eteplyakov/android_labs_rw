@@ -33,7 +33,7 @@
         <activity
             android:name="com.example.activityrotator.ThirdActivity"
             android:label="@string/title_activity_third"
-            android:screenOrientation="portrait" >
+            android:configChanges="orientation|screenSize|keyboardHidden" >
         </activity>
         <activity
             android:name="com.example.activityrotator.FourthActivity"
