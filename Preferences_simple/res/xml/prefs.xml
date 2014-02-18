@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <CheckBoxPreference
+        android:key="checkBox"
+        android:title="@string/enable" />
+
+    <com.example.preferences.SilentRingtonePreference
+        android:title="@string/ringtone" />
+
+    <EditTextPreference
+        android:key="username"
+        android:summary="@string/message_text"
+        android:title="@string/message" />
+
+    <PreferenceCategory android:title="@string/parameters" >
+        <ListPreference
+            android:entries="@array/listOptions"
+            android:entryValues="@array/listValues"
+            android:key="listpref"
+            android:title="@string/loud" />
+    </PreferenceCategory>
+
+    <com.example.preferences.SeekBarPreference
+        android:defaultValue="100"
+        android:dialogMessage=""
+        android:key="duration"
+        android:max="3000"
+        android:summary="@string/duration_text"
+        android:text=""
+        android:title="@string/duration" />
+
+    <PreferenceScreen
+        android:title="@string/luck_control" >
+        <CheckBoxPreference
+            android:key="checkBox"
+            android:title="@string/luck_enable" />
+    </PreferenceScreen>
+
+</PreferenceScreen>
