@@ -11,7 +11,6 @@ public class MainActivity extends Activity {
 	private static final int COUNT_OF_ITEMS = 20000;
 	private static final int MAX_NUMBER_IMAGE = 4;
 	private static final int MAX_NUMBER_DESCRIPTION = 10;
-	private static final String ITEM_STRING_BEGIN = "Item #";
 	private ListView listOfElements_;
 	private ArrayList<Item> elementsArray_ = new ArrayList<Item>();
 
@@ -72,7 +71,7 @@ public class MainActivity extends Activity {
 				descriprionNumber = R.string.description10;
 				break;
 			}
-			elementsArray_.add(new Item(ITEM_STRING_BEGIN+(i + 1), descriprionNumber, imageNumber));
+			elementsArray_.add(new Item(getString(R.string.item)+(i + 1), descriprionNumber, imageNumber));
 		}
 		listOfElements_ = (ListView) this.findViewById(R.id.list);
 		listOfElements_.setAdapter(new ArrayAdapterItem(this, elementsArray_));
