@@ -8,8 +8,6 @@ package com.example.activitynavigator;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 
 public class ColorSelectionActivity extends Activity {
@@ -20,26 +18,20 @@ public class ColorSelectionActivity extends Activity {
 		setContentView(R.layout.activity_color_selection);
 	}
 
-	public static void createIntent(int color, Context packageContext) {
-		Intent intent = new Intent(packageContext, ShowColorActivity.class);
-		intent.putExtra("color", color);
-		packageContext.startActivity(intent);
-	}
-
 	public void onRedButtonClick(View view) {
-		createIntent(R.color.red, this);
+		startActivity(ShowColorActivity.makeIntentShowColor(this, R.color.red));
 	}
 
 	public void onGreenButtonClick(View view) {
-		createIntent(R.color.green, this);
+		startActivity(ShowColorActivity.makeIntentShowColor(this, R.color.green));
 	}
 
 	public void onBlueButtonClick(View view) {
-		createIntent(R.color.blue, this);
+		startActivity(ShowColorActivity.makeIntentShowColor(this, R.color.blue));
 	}
 
 	public void onBlackButtonClick(View view) {
-		createIntent(R.color.black, this);
+		startActivity(ShowColorActivity.makeIntentShowColor(this, R.color.black));
 	}
 
 }
