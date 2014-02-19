@@ -17,26 +17,26 @@ public class MyAdapter extends BaseAdapter {
 	private static final int LEFT_MARGIN = 48;
 	private static final int TOP_MARGIN=25;
 
-	ArrayList<Item> elementsArray = new ArrayList<Item>();
-	Context context;
+	ArrayList<Item> elementsArray_ = new ArrayList<Item>();
+	Context context_;
 
 	public MyAdapter(Context context, ArrayList<Item> itemsArray) {
 		if (itemsArray != null) {
-			elementsArray = itemsArray;
+			elementsArray_ = itemsArray;
 		}
-		this.context = context;
+		this.context_ = context;
 	}
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return elementsArray.size();
+		return elementsArray_.size();
 	}
 
 	@Override
 	public Object getItem(int num) {
 		// TODO Auto-generated method stub
-		return elementsArray.get(num);
+		return elementsArray_.get(num);
 	}
 
 	@Override
@@ -46,15 +46,15 @@ public class MyAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View listView, ViewGroup arg2) {
-		LayoutInflater inflater = LayoutInflater.from(context);
+		LayoutInflater inflater = LayoutInflater.from(context_);
 		if (listView == null) {
 			listView = inflater.inflate(R.layout.list_view_item, arg2, false);
 		}
 		TextView title = (TextView) listView.findViewById(R.id.title);
 		TextView details = (TextView) listView.findViewById(R.id.details);
 		ImageView icon = (ImageView) listView.findViewById(R.id.xx);
-		title.setText(elementsArray.get(position).title);
-		details.setText(elementsArray.get(position).details);
+		title.setText(elementsArray_.get(position).getTitle());
+		details.setText(elementsArray_.get(position).getDetails());
 		RelativeLayout.LayoutParams parameters = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT);
 		if ((position + 1) % 2 == 0) {

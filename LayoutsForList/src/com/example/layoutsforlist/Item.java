@@ -1,30 +1,28 @@
 package com.example.layoutsforlist;
 
 public class Item {
-	String title;
-	String details;
-	boolean detailsVisibility;
-	boolean iconVisibility;
+	private String title_;
+	private String details_;
 
 	Item(String title, String details) {
-		this.title = title;
-		this.details = details;
+		this.title_ = title;
+		this.details_ = details;
 	}
 
 	public String getTitle() {
-		return title;
+		return title_;
 	}
 
 	public void setTitle(String title) {
-		this.title = title;
+		this.title_ = title;
 	}
 
 	public String getDetails() {
-		return details;
+		return details_;
 	}
 
 	public void setDetails(String details) {
-		this.details = details;
+		this.details_ = details;
 	}
 
 }
