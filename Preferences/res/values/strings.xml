@@ -2,7 +2,15 @@
 <resources>
 
     <string name="app_name">Preferences</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="enable">Enable</string>
+    <string name="ringtone">Ringtone</string>
+    <string name="message">Message</string>
+    <string name="message_text">Please enter your message</string>
+    <string name="parameters">Parameters</string>
+    <string name="loud">Loud level</string>
+    <string name="duration_text">Duration from 0 to 3000</string>
+    <string name="duration">Duration</string>
+    <string name="luck_control">Luck control</string>
+    <string name="luck_enable">Enable luck?</string>
 
 </resources>

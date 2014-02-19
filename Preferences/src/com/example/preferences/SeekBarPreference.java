@@ -1,3 +1,9 @@
+/* The following code was written by Matthew Wiggins 
+ * and is released under the APACHE 2.0 license 
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * http://android.hlidskialf.com/blog/code/android-seekbar-preference
+ */
 package com.example.preferences;
 import android.content.Context;
 import android.text.InputType;
@@ -33,7 +39,8 @@ public class SeekBarPreference extends DialogPreference implements SeekBar.OnSee
     mMax = attrs.getAttributeIntValue(androidns,"max", 100);
 
   }
-  @Override 
+  @SuppressWarnings("deprecation")
+@Override 
   protected View onCreateDialogView() {
     LinearLayout.LayoutParams params;
     LinearLayout layout = new LinearLayout(mContext_);
