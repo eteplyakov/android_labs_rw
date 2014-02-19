@@ -13,5 +13,7 @@
     <string name="map_error_message">"Something wrong"</string>
     <string name="app_error_message">"You don't have application to do this"</string>
     <string name="image">image</string>
+    <string name="error_title">Error!</string>
+    <string name="select_picture">Select Picture</string>
 
 </resources>

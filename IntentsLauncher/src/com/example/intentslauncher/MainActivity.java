@@ -74,7 +74,7 @@ public class MainActivity extends Activity {
 
 	public void showDialog(String text) {
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-		alertDialog.setTitle("Error!");
+		alertDialog.setTitle(getString(R.string.app_error_message));
 		alertDialog.setMessage(text);
 		alertDialog.show();
 	}
@@ -112,7 +112,7 @@ public class MainActivity extends Activity {
 		Intent intent = new Intent();
 		intent.setType(IMAGE_TYPE);
 		intent.setAction(Intent.ACTION_GET_CONTENT);
-		startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+		startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)), SELECT_PICTURE);
 	}
 
 	public void onPhotoButtonClick(View view) {
