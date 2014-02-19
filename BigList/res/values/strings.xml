@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Big list</string>
+    <string name="item">Item #</string>
+    <string name="description1">We’ll make use of the Android ViewHolder pattern in our ListView.</string>
+    <string name="description2">The first time it was loaded, convertView is null. We’ll have to inflate our list item layout.</string>
+    <string name="description3">The second time it was loaded, convertView is not null, good! We don’t have to inflate it again.</string>
+    <string name="description4">The following times it was loaded, convertView is definitely not null.</string>
+    <string name="description5">Now we are going to code the smooth scrolling of our Android ListView.</string>
+    <string name="description6">In the previous post, we tried to understand how the ListView with adapter works.</string>
+    <string name="description7">The ViewHolder design pattern enables you to access each list item view without the need for the look up.</string>
+    <string name="description8">Okay, let’s dig it out and see how it works without the ViewHolder pattern.</string>
+    <string name="description9">The following time it was loaded, convertView is definitely not null.</string>
+    <string name="description10">For the sake of testing, we’re going to put thousands of items in our ListView.</string>
+
+</resources>
