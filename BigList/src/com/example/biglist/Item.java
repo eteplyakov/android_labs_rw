@@ -2,36 +2,24 @@ package com.example.biglist;
 
 public class Item {
 	private String numberText_;
-	private int descriptionId_;
+	private String description_;
 	private int iconId_;
 
-	Item(String numberText_, int descriptionId_, int iconId_) {
-		this.numberText_ = numberText_;
-		this.descriptionId_ = descriptionId_;
-		this.iconId_ = iconId_;
+	Item(String numberText, String description, int iconId) {
+		this.numberText_ = numberText;
+		this.description_ = description;
+		this.iconId_ = iconId;
 	}
 
 	public String getNumberText() {
 		return numberText_;
 	}
 
-	public void setNumberText(String numberText) {
-		this.numberText_ = numberText;
-	}
-
-	public int getDescriptionId() {
-		return descriptionId_;
-	}
-
-	public void setDescriptionId(int descriptionId) {
-		this.descriptionId_ = descriptionId;
+	public String getDescriptionId() {
+		return description_;
 	}
 
 	public int getIconId() {
 		return iconId_;
-	}
-
-	public void setIconId(int iconId) {
-		this.iconId_ = iconId;
 	}
 }

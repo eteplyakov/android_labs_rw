@@ -3,6 +3,7 @@
 
     <string name="app_name">Big list</string>
     <string name="item">Item #</string>
+    <string name="description_begin">Descriprion for item #</string>
     <string name="description1">We’ll make use of the Android ViewHolder pattern in our ListView.</string>
     <string name="description2">The first time it was loaded, convertView is null. We’ll have to inflate our list item layout.</string>
     <string name="description3">The second time it was loaded, convertView is not null, good! We don’t have to inflate it again.</string>
