@@ -13,16 +13,7 @@ public class Item {
 		return title_;
 	}
 
-	public void setTitle(String title) {
-		this.title_ = title;
-	}
-
 	public String getDetails() {
 		return details_;
 	}
-
-	public void setDetails(String details) {
-		this.details_ = details;
-	}
-
 }
