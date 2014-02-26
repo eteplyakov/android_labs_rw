@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="ringtone_preferences" >
+
+    <CheckBoxPreference
+        android:key="enable"
+        android:title="@string/enable" />
+
+    <RingtonePreference
+        android:key="ringtone"
+        android:ringtoneType="notification"
+        android:title="@string/ringtone" >
+    </RingtonePreference>
+
+    <com.example.batteryringer.SeekBarPreference
+        android:defaultValue="100"
+        android:dialogMessage=""
+        android:key="loud_level"
+        android:max="3000"
+        android:summary="@string/duration_text"
+        android:text=""
+        android:title="@string/duration" />
+
+</PreferenceScreen>

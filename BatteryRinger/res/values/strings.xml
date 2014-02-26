@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Battery Ringer</string>
+    <string name="enable">Enable</string>
+    <string name="ringtone">Ringtone</string>
+    <string name="duration_text">Duration from 0 to 3000</string>
+    <string name="duration">Loud level</string>
+    <string name="error">Playing error!</string>
+</resources>
