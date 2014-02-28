@@ -10,27 +10,20 @@ import android.database.Cursor;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.util.AttributeSet;
 import android.app.AlertDialog.Builder;
 
-public class SilentRingtonePreference extends ListPreference implements OnPreferenceClickListener {
+public class SilentRingtonePreference extends ListPreference {
 
-	public static final int REQUEST_NOTIFICATION_TONE = 0;
-	private List<Ringtone> mRingtones_;
-	private String[] mEntries_, mValues_;
-	private int mSelectedItem_;
+	private List<Ringtone> ringtones_;
+	private String[] entries_;
+	private String[] values_;
+	private int selectedItem_;
+	private String value_;
 
 	public SilentRingtonePreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		loadRingtones(getContext());
-		setOnPreferenceClickListener(this);
-	}
-
-	@Override
-	public boolean onPreferenceClick(Preference preference) {
-		return true;
 	}
 
 	@Override
@@ -39,12 +32,37 @@ public class SilentRingtonePreference extends ListPreference implements OnPrefer
 			@Override
 			public void onClick(final DialogInterface dialog, final int which) {
 				setSelectedItem(which);
-				final Ringtone ringtone = getSelectedRingtone();
-				if (ringtone.isPlaying()) {
-					ringtone.stop();
-				}
 			}
 		});
+	}
+
+	@Override
+	protected void onDialogClosed(boolean positiveResult) {
+		super.onDialogClosed(positiveResult);
+		if (positiveResult) {
+			value_ = entries_[getSelectedItem()].toString();
+			if (callChangeListener(value_)) {
+				persistString(value_);
+			}
+		} else {
+			setValue(getPersistedString(value_));
+		}
+	}
+
+	@Override
+	protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+		setValue(restoreValue ? getPersistedString(value_) : (String) defaultValue);
+	}
+
+	public void setValue(String value) {
+		value_ = value;
+		for (int i = 0; i < entries_.length; i++) {
+			if (entries_[i].equals(value_)) {
+				selectedItem_ = i;
+			} else {
+				selectedItem_ = 0;
+			}
+		}
 	}
 
 	private void loadRingtones(final Context context) {
@@ -53,30 +71,37 @@ public class SilentRingtonePreference extends ListPreference implements OnPrefer
 		final Cursor cur = manager.getCursor();
 		cur.moveToFirst();
 		final int count = cur.getCount();
-		mRingtones_ = new ArrayList<Ringtone>(count);
-		mEntries_ = new String[count];
-		mValues_ = new String[count];
+		ringtones_ = new ArrayList<Ringtone>(count);
+		entries_ = new String[count];
+		values_ = new String[count];
 		for (int i = 0; i < count; i++) {
 			final Ringtone ringtone = manager.getRingtone(i);
-			mRingtones_.add(ringtone);
-			mEntries_[i] = ringtone.getTitle(context);
-			mValues_[i] = manager.getRingtoneUri(i).toString();
+			ringtones_.add(ringtone);
+			entries_[i] = ringtone.getTitle(context);
+			values_[i] = manager.getRingtoneUri(i).toString();
 		}
-		setEntries(mEntries_);
-		setEntryValues(mValues_);
+		setEntries(entries_);
+		setEntryValues(values_);
 		cur.close();
 	}
 
 	public Ringtone getSelectedRingtone() {
-		return mRingtones_.get(mSelectedItem_);
+		return ringtones_.get(selectedItem_);
 	}
 
 	public int getSelectedItem() {
-		return mSelectedItem_;
+		return selectedItem_;
+	}
+
+	public String getSelectedValue() {
+		if (value_.equals(null)) {
+			return "";
+		} else {
+			return value_;
+		}
 	}
 
 	public void setSelectedItem(final int selected) {
-		mSelectedItem_ = selected >= 0 && selected < mValues_.length ? selected : 0;
+		selectedItem_ = selected >= 0 && selected < values_.length ? selected : 0;
 	}
-
 }

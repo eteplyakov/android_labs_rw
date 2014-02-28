@@ -6,6 +6,8 @@
         android:title="@string/enable" />
 
     <com.example.preferences.SilentRingtonePreference
+        android:key="ringtone"
+        android:summary="@string/default_summary"
         android:title="@string/ringtone" />
 
     <EditTextPreference
@@ -17,23 +19,20 @@
         <ListPreference
             android:entries="@array/listOptions"
             android:entryValues="@array/listValues"
-            android:key="listpref"
+            android:key="loud"
+            android:summary="@string/default_summary"
             android:title="@string/loud" />
     </PreferenceCategory>
 
     <com.example.preferences.SeekBarPreference
         android:defaultValue="100"
-        android:dialogMessage=""
-        android:key="duration"
+        android:key="level_duration"
         android:max="3000"
-        android:summary="@string/duration_text"
-        android:text=""
         android:title="@string/duration" />
 
-    <PreferenceScreen
-        android:title="@string/luck_control" >
+    <PreferenceScreen android:title="@string/luck_control" >
         <CheckBoxPreference
-            android:key="checkBox"
+            android:key="luck"
             android:title="@string/luck_enable" />
     </PreferenceScreen>
 
