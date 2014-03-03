@@ -2,6 +2,7 @@ package com.example.customview;
 
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.app.Activity;
 
 public class MainActivity extends Activity {
@@ -19,6 +20,12 @@ public class MainActivity extends Activity {
 		}
 		ListView listOfElements = (ListView) this.findViewById(R.id.list);
 		listOfElements.setAdapter(new ListAdapter(this, items));
+	}
+
+	public void imagelessItemClick(ImagelessView view) {
+		Toast toast = Toast.makeText(this, getResources().getText(R.string.onclick_toast_message),
+				Toast.LENGTH_SHORT);
+		toast.show();
 	}
 
 }

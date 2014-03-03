@@ -1,5 +1,8 @@
 package com.example.customview;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -7,20 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ImagelessView extends LinearLayout {
-
+	
 	private TextView textViewTop_;
 	private TextView textViewBottom_;
-
-	private OnClickListener onViewClick = new OnClickListener() {
-		public void onClick(View v) {
-			Toast toast = Toast.makeText(getContext(), getResources().getText(R.string.onclick_toast_message),
-					Toast.LENGTH_SHORT);
-			toast.show();
-		}
-	};
 
 	public ImagelessView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -43,7 +37,41 @@ public class ImagelessView extends LinearLayout {
 				textViewBottom_.setText(a.getString(attr));
 				break;
 			case R.styleable.ImagelessView_onClick:
-				this.setOnClickListener(onViewClick);
+				if (context.isRestricted()) {
+					throw new IllegalStateException("The android:onClick attribute cannot "
+							+ "be used within a restricted context");
+				}
+
+				final String handlerName = a.getString(attr);
+				if (handlerName != null) {
+					setOnClickListener(new OnClickListener() {
+						private Method mHandler;
+
+						public void onClick(View v) {
+							if (mHandler == null) {
+								try {
+									mHandler = getContext().getClass().getMethod(handlerName, ImagelessView.class);
+								} catch (NoSuchMethodException e) {
+									int id = getId();
+									String idText = id == NO_ID ? "" : " with id '"
+											+ getContext().getResources().getResourceEntryName(id) + "'";
+									throw new IllegalStateException("Could not find a method " + handlerName
+											+ "(View) in the activity " + getContext().getClass()
+											+ " for onClick handler" + " on view " + ImagelessView.this.getClass() + idText, e);
+								}
+							}
+
+							try {
+								mHandler.invoke(getContext(), ImagelessView.this);
+							} catch (IllegalAccessException e) {
+								throw new IllegalStateException("Could not execute non "
+										+ "public method of the activity", e);
+							} catch (InvocationTargetException e) {
+								throw new IllegalStateException("Could not execute " + "method of the activity", e);
+							}
+						}
+					});
+				}
 				break;
 			}
 		}
