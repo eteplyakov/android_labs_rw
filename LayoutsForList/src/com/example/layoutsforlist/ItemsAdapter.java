@@ -30,11 +30,12 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
 		title.setText(getItem(position).getTitle());
 		details.setText(getItem(position).getDetails());
 
-		RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
 		titleParams.addRule(RelativeLayout.LEFT_OF, rightIcon.getId());
 		titleParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 		titleParams.addRule(RelativeLayout.RIGHT_OF, leftIcon.getId());
-		
+
 		if (((position + 1) % 2 == 0) && ((position + 1) % 3 == 0)) {
 			RelativeLayout.LayoutParams whithoutTwoElement = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
 					LayoutParams.WRAP_CONTENT);
@@ -69,37 +70,6 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
 				}
 			}
 		}
-		
-		/*
-		if ((position + 1) % 2 == 0) {
-			whithoutOneElement.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-			whithoutOneElement.addRule(RelativeLayout.RIGHT_OF, leftIcon.getId());
-			whithoutOneElement.addRule(RelativeLayout.ALIGN_BOTTOM, leftIcon.getId());
-			title.setLayoutParams(whithoutOneElement);
-			details.setVisibility(View.GONE);
-		} else {
-			title.setLayoutParams(titleParams);
-			details.setVisibility(View.VISIBLE);
-		}
-		if ((position + 1) % 3 == 0) {
-			whithoutOneElement.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-			whithoutOneElement.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-			whithoutOneElement.addRule(RelativeLayout.RIGHT_OF, leftIcon.getId());
-			title.setLayoutParams(whithoutOneElement);
-			rightIcon.setVisibility(View.GONE);
-		} else {
-			title.setLayoutParams(titleParams);
-			rightIcon.setVisibility(View.VISIBLE);
-		}
-		RelativeLayout.LayoutParams whithoutTwoElement = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		if (((position + 1) % 2 == 0) && ((position + 1) % 3 == 0)) {
-			whithoutTwoElement.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-			whithoutTwoElement.addRule(RelativeLayout.RIGHT_OF, leftIcon.getId());
-			whithoutTwoElement.addRule(RelativeLayout.ALIGN_BOTTOM, leftIcon.getId());
-			title.setLayoutParams(whithoutTwoElement);
-		}
-		*/
 		return listView;
 	}
 }
