@@ -13,11 +13,8 @@
 
     <com.example.ringtonepreferences.SeekBarPreference
         android:defaultValue="100"
-        android:dialogMessage=""
         android:key="loud_level"
         android:max="3000"
-        android:summary="@string/duration_text"
-        android:text=""
         android:title="@string/duration" />
 
 </PreferenceScreen>

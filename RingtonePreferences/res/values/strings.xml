@@ -4,6 +4,6 @@
     <string name="app_name">Ringtone Preferences</string>
     <string name="enable">Enable</string>
     <string name="ringtone">Ringtone</string>
-    <string name="duration_text">Duration from 0 to 3000</string>
     <string name="duration">Loud level</string>
+    <string name="silent">Silent</string>
 </resources>
