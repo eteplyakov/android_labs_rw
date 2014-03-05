@@ -9,13 +9,13 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
-public class BatteryStatus extends BroadcastReceiver {
+public class BatteryStatusReceiver extends BroadcastReceiver {
 
-	private static String ENABLE_KEY = "enable";
-	private static String RINGTONE_KEY = "ringtone";
-	private static String LOUD_LEVEL_KEY = "loud_level";
-	private static int MAX_VOLUME = 3000;
-	private static int DEFAULT_VOLUME = 100;
+	static final String ENABLE_KEY = "enable";
+	static final String RINGTONE_KEY = "ringtone";
+	static final String LOUD_LEVEL_KEY = "loud_level";
+	static final int MAX_VOLUME = 3000;
+	static final int DEFAULT_VOLUME = 100;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {

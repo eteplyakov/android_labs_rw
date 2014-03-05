@@ -1,5 +1,8 @@
 package com.example.batteryringer;
 
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
@@ -28,14 +31,16 @@ public class PreferencesActivity extends PreferenceActivity {
 		enable_ = (CheckBoxPreference) findPreference(ENABLE_KEY);
 		ringtone_ = (RingtonePreference) findPreference(RINGTONE_KEY);
 
-		visibleRingtone(enable_.isChecked());
-		visibleLoudLevel(ringtone_.getSharedPreferences().getString(RINGTONE_KEY, ""));
-
+		changeRingtonePreferenceVisibility(enable_.isChecked());
+		changeSeekBarPreferenceVisibility(ringtone_.getSharedPreferences().getString(RINGTONE_KEY, ""));
+		Ringtone ringtone = RingtoneManager.getRingtone(getBaseContext(),
+				Uri.parse(ringtone_.getSharedPreferences().getString(RINGTONE_KEY, "")));
+		ringtone_.setSummary(ringtone.getTitle(getBaseContext()));
 		enable_.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				visibleRingtone(Boolean.valueOf(newValue.toString()));
+				changeRingtonePreferenceVisibility(Boolean.valueOf(newValue.toString()));
 				return true;
 			}
 		});
@@ -43,26 +48,34 @@ public class PreferencesActivity extends PreferenceActivity {
 
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				visibleLoudLevel(newValue.toString());
+				changeSeekBarPreferenceVisibility(newValue.toString());
+				if (newValue.toString().equals("")) {
+					ringtone_.setSummary(R.string.silent);
+				} else {
+					Ringtone ringtone = RingtoneManager.getRingtone(getBaseContext(), Uri.parse(newValue.toString()));
+					ringtone_.setSummary(ringtone.getTitle(getBaseContext()));
+				}
 				return true;
 			}
 		});
 	}
 
 	@SuppressWarnings("deprecation")
-	private void visibleRingtone(boolean value) {
+	private void changeRingtonePreferenceVisibility(boolean isVisible) {
 		PreferenceScreen preferenceScreen = getPreferenceScreen();
-		if (value) {
+		if (isVisible) {
 			preferenceScreen.addPreference(ringtone_);
+			preferenceScreen.addPreference(loudLevel_);
 		} else {
 			preferenceScreen.removePreference(ringtone_);
+			preferenceScreen.removePreference(loudLevel_);
 		}
 	}
 
 	@SuppressWarnings("deprecation")
-	private void visibleLoudLevel(String value) {
+	private void changeSeekBarPreferenceVisibility(String isVisible) {
 		PreferenceScreen preferenceScreen = getPreferenceScreen();
-		if (value.equals("")) {
+		if (isVisible.equals("")) {
 			preferenceScreen.removePreference(loudLevel_);
 		} else {
 			preferenceScreen.addPreference(loudLevel_);
