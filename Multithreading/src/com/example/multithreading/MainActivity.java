@@ -10,11 +10,11 @@ import android.app.Activity;
 
 public class MainActivity extends Activity {
 
-	private class AsyncAddItem extends AsyncTask<String, Integer, String> {
+	private static class AsyncAddItem extends AsyncTask<String, Integer, String> {
 
 		@Override
 		protected String doInBackground(String... params) {
-			for (int i = 1; i < 12; i++) {
+			for (int i = 1; i <= END_VALUE; i++) {
 				publishProgress(i);
 				try {
 					Thread.sleep(DELAY_TIME);
@@ -27,37 +27,41 @@ public class MainActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			threadButton_.setEnabled(false);
-			asyncButton_.setEnabled(false);
+			currentActivity_.threadButton_.setEnabled(false);
+			currentActivity_.asyncButton_.setEnabled(false);
 			super.onPreExecute();
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-			threadButton_.setEnabled(true);
-			asyncButton_.setEnabled(true);
+			currentActivity_.threadButton_.setEnabled(true);
+			currentActivity_.asyncButton_.setEnabled(true);
 			super.onPostExecute(result);
 		}
 
 		@Override
 		protected void onProgressUpdate(Integer... value) {
 			super.onProgressUpdate(value);
-			if (value[0] == 11) {
-				listAdapter_.remove((value[0] - 1) + "");
-				listAdapter_.add(getString(R.string.added));
+			if (value[0] == END_VALUE) {
+				currentActivity_.listAdapter_.remove((value[0] - 1) + "");
+				currentActivity_.listAdapter_.add(currentActivity_.getString(R.string.added));
 			} else {
-				listAdapter_.remove((value[0] - 1) + "");
-				listAdapter_.add(value[0] + "");
+				currentActivity_.listAdapter_.remove((value[0] - 1) + "");
+				currentActivity_.listAdapter_.add(value[0] + "");
 			}
 		}
 	}
 
 	private static int DELAY_TIME = 1000;
+	private static int END_VALUE = 11;
+
+	private static MainActivity currentActivity_;
 
 	private ListView taskList_;
 	private Button threadButton_;
 	private Button asyncButton_;
 
+	private AsyncAddItem asyncAddItem_;
 	private ArrayAdapter<String> listAdapter_;
 	private int count_;
 
@@ -70,27 +74,40 @@ public class MainActivity extends Activity {
 		asyncButton_ = (Button) findViewById(R.id.async);
 		taskList_ = (ListView) findViewById(R.id.task_list);
 
-		listAdapter_ = new ArrayAdapter<String>(this, R.layout.list_item, R.id.title);
+		MainActivity oldObject = (MainActivity) getLastNonConfigurationInstance();
+		if (oldObject != null) {
+			listAdapter_ = oldObject.listAdapter_;
+			threadButton_.setEnabled(oldObject.threadButton_.isEnabled());
+			asyncButton_.setEnabled(oldObject.asyncButton_.isEnabled());
+		} else {
+			listAdapter_ = new ArrayAdapter<String>(this, R.layout.list_item, R.id.title);
+		}
 		taskList_.setAdapter(listAdapter_);
+		currentActivity_ = this;
+	}
+
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return this;
 	}
 
 	public void threadClick(View view) {
 		count_ = 0;
 		new Thread() {
 			public void run() {
-				while (count_++ < 11) {
+				while (count_++ < END_VALUE) {
 					try {
 						runOnUiThread(new Runnable() {
 
 							@Override
 							public void run() {
-								threadButton_.setEnabled(false);
-								asyncButton_.setEnabled(false);
-								if (count_ == 11) {
+								currentActivity_.threadButton_.setEnabled(false);
+								currentActivity_.asyncButton_.setEnabled(false);
+								if (count_ == END_VALUE) {
 									listAdapter_.remove((count_ - 1) + "");
 									listAdapter_.add(getString(R.string.added));
-									threadButton_.setEnabled(true);
-									asyncButton_.setEnabled(true);
+									currentActivity_.threadButton_.setEnabled(true);
+									currentActivity_.asyncButton_.setEnabled(true);
 								} else {
 									listAdapter_.remove((count_ - 1) + "");
 									listAdapter_.add(count_ + "");
@@ -107,6 +124,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void asyncClick(View view) {
-		new AsyncAddItem().execute("");
+		asyncAddItem_ = new AsyncAddItem();
+		asyncAddItem_.execute("");
 	}
 }
