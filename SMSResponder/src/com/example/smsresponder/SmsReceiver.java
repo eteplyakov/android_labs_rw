@@ -15,14 +15,70 @@ import android.widget.Toast;
 
 public class SmsReceiver extends BroadcastReceiver {
 
-	private static String NUMBER_LIST_KEY = "numbers_to_answer";
-	private static String SPLIT_CHAR = ";";
-	private static String NULL_STRING = "null";
-	private static Context context_;
+	static final String NUMBER_LIST_KEY = "numbers_to_answer";
+	static final String SPLIT_CHAR = ";";
+	static final String NULL_STRING = "null";
 
-	private static boolean checkNumber(String incomingNumber) {
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String startBorder = preferences.getString("start_border", "");
+		String endBorder = preferences.getString("end_border", "");
+		String prefix = preferences.getString("prefix", "");
+		String postfix = preferences.getString("postfix", "");
+		Bundle bundle = intent.getExtras();
+		SmsMessage[] messages = null;
+		String messageReceived = "";
+		if (bundle != null) {
+			Object[] pdus = (Object[]) bundle.get("pdus");
+			messages = new SmsMessage[pdus.length];
+			for (int i = 0; i < messages.length; i++) {
+				messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
+				if (checkNumber(context, messages[i].getOriginatingAddress())) {
+					messageReceived += messages[i].getMessageBody().toString();
+					String outMessage = "";
+					if ((startBorder.equals("") && endBorder.equals(""))) {
+						outMessage = messageReceived;
+					} else {
+						if (startBorder.equals("")) {
+							outMessage = messageReceived.replace(" " + endBorder, "");
+						} else {
+							if (endBorder.equals("")) {
+								outMessage = messageReceived.replace(startBorder + " ", "");
+							} else {
+								Matcher matcher = Pattern.compile(
+										Pattern.quote(startBorder) + "(.*?)" + Pattern.quote(endBorder)).matcher(
+										messageReceived);
+								while (matcher.find()) {
+									outMessage += matcher.group(1);
+								}
+							}
+						}
+
+					}
+					SmsManager sms = SmsManager.getDefault();
+					if (!outMessage.equals("")) {
+						if (!prefix.equals("")) {
+							outMessage = prefix + " " + outMessage;
+						}
+						if (!postfix.equals("")) {
+							outMessage = outMessage + " " + postfix;
+						}
+						sms.sendTextMessage(messages[i].getOriginatingAddress(), null, outMessage, null, null);
+						Toast toast = Toast.makeText(
+								context,
+								context.getResources().getString(R.string.response_message) + " "
+										+ messages[i].getOriginatingAddress(), Toast.LENGTH_LONG);
+						toast.show();
+					}
+				}
+			}
+		}
+	}
+	
+	private boolean checkNumber(Context context, String incomingNumber) {
 		boolean result = false;
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		String numbers = prefs.getString(NUMBER_LIST_KEY, NULL_STRING);
 		if (!numbers.equals(NULL_STRING)) {
 			String[] numbersArray = numbers.split(SPLIT_CHAR);
@@ -34,46 +90,5 @@ public class SmsReceiver extends BroadcastReceiver {
 			}
 		}
 		return result;
-	}
-	
-	@Override
-	public void onReceive(Context context, Intent intent) {
-		context_ = context;
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String startBorder = preferences.getString("start_border", null);
-		String endBorder = preferences.getString("end_border", null);
-		String prefix = preferences.getString("prefix", null);
-		String postfix = preferences.getString("postfix", null);
-		Bundle bundle = intent.getExtras();
-		SmsMessage[] messages = null;
-		String messageReceived = "";
-		if (bundle != null) {
-			Object[] pdus = (Object[]) bundle.get("pdus");
-			messages = new SmsMessage[pdus.length];
-			for (int i = 0; i < messages.length; i++) {
-				messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
-				if (checkNumber(messages[i].getOriginatingAddress())) {
-					messageReceived += messages[i].getMessageBody().toString();
-					String outMessage = "";
-					if (startBorder.equals(null) && endBorder.equals(null)) {
-						outMessage = messageReceived;
-					} else {
-						Matcher m = Pattern.compile(Pattern.quote(startBorder) + "(.*?)" + Pattern.quote(endBorder))
-								.matcher(messageReceived);
-						while (m.find()) {
-							outMessage += m.group(1);
-						}
-					}
-					SmsManager sms = SmsManager.getDefault();
-					if (!outMessage.equals("")) {
-						sms.sendTextMessage(messages[i].getOriginatingAddress(), null, prefix + outMessage + postfix,
-								null, null);
-						Toast toast = Toast.makeText(context,
-								context.getResources().getString(R.string.response_message)+" " + messages[i].getOriginatingAddress(), Toast.LENGTH_LONG);
-						toast.show();
-					}
-				}
-			}
-		}
 	}
 }

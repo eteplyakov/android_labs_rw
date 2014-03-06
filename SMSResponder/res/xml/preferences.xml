@@ -16,6 +16,14 @@
         android:key="postfix"
         android:title="@string/postfix" />
 
-    <com.example.smsresponder.NumbersListPreference android:title="@string/numbers" />
+    <PreferenceScreen
+        android:key="number_list"
+        android:title="@string/numbers" >
+        <com.example.smsresponder.NumbersListPreference android:title="@string/numbers_list" />
+
+        <EditTextPreference
+            android:key="add_number"
+            android:title="@string/add_number" />
+    </PreferenceScreen>
 
 </PreferenceScreen>
