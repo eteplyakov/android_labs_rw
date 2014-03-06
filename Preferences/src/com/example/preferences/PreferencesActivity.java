@@ -9,34 +9,22 @@ import android.preference.PreferenceScreen;
 
 public class PreferencesActivity extends PreferenceActivity {
 
-	private static String RINGTONE_KEY = "ringtone";
 	private static String LOUD_KEY = "loud";
-	
-	private SilentRingtonePreference ringtone_;
+
 	private ListPreference loud_;
 
-	@SuppressWarnings("deprecation") //disables certain compiler warnings about deprecated code
+	@SuppressWarnings("deprecation")
+	// disables certain compiler warnings about deprecated code
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.prefs);
-		ringtone_ = (SilentRingtonePreference) findPreference(RINGTONE_KEY);
+
 		loud_ = (ListPreference) findPreference(LOUD_KEY);
-		if (!ringtone_.getSharedPreferences().getString(RINGTONE_KEY, "").equals("")) {
-			ringtone_.setSummary(ringtone_.getSelectedValue());
-		}
+
 		if (!loud_.getSharedPreferences().getString(LOUD_KEY, "").equals("")) {
 			loud_.setSummary(loud_.getEntry());
 		}
-		ringtone_.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				ringtone_.setSummary(newValue.toString());
-				return true;
-			}
-		});
-
 		loud_.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
 			@Override
@@ -47,7 +35,8 @@ public class PreferencesActivity extends PreferenceActivity {
 		});
 	}
 
-	@SuppressWarnings("deprecation") //disables certain compiler warnings about deprecated code
+	@SuppressWarnings("deprecation")
+	// disables certain compiler warnings about deprecated code
 	@Override
 	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
 		super.onPreferenceTreeClick(preferenceScreen, preference);
