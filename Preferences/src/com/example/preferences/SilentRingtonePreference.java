@@ -3,6 +3,7 @@ package com.example.preferences;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.database.Cursor;
 import android.media.Ringtone;
@@ -26,6 +27,21 @@ public class SilentRingtonePreference extends ListPreference {
 		}
 	}
 
+	@Override
+	protected void onPrepareDialogBuilder(Builder builder) {
+		
+		String currentValue = getPersistedString("");
+		if (!currentValue.equals("")) {
+			for (int i = 0; i < getEntries().length; i++) {
+				if (getEntries()[i].equals(currentValue)) {
+					setValueIndex(i);
+					break;
+				}
+			}
+		}
+		super.onPrepareDialogBuilder(builder);
+	}
+
 	private void loadRingtones(Context context) {
 		final RingtoneManager manager = new RingtoneManager(context);
 		manager.setType(RingtoneManager.TYPE_NOTIFICATION);
@@ -34,22 +50,15 @@ public class SilentRingtonePreference extends ListPreference {
 		List<Ringtone> ringtones = new ArrayList<Ringtone>(cur.getCount());
 		String[] entries = new String[cur.getCount()];
 		String[] values = new String[cur.getCount()];
-		String currentValue = getPersistedString("");
 		for (int i = 0; i < cur.getCount(); i++) {
 			final Ringtone ringtone = manager.getRingtone(i);
 			ringtones.add(ringtone);
 			entries[i] = ringtone.getTitle(context);
 			values[i] = manager.getRingtoneUri(i).toString();
-			if (currentValue.equals(entries[i])) {
-				setValueIndex(i);
-			}
 		}
 		setEntries(entries);
 		setEntryValues(values);
 		cur.close();
-		if (!currentValue.equals("")) {
-			setSummary(currentValue);
-		}
 	}
 
 }
