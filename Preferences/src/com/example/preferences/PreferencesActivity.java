@@ -13,7 +13,7 @@ public class PreferencesActivity extends PreferenceActivity {
 	private static String RINGTONE_KEY = "ringtone";
 
 	private ListPreference loud_;
-	private SilentRingtonePreference ringtone_; 
+	private SilentRingtonePreference ringtone_;
 
 	@SuppressWarnings("deprecation")
 	// disables certain compiler warnings about deprecated code
@@ -26,7 +26,7 @@ public class PreferencesActivity extends PreferenceActivity {
 		if (!ringtone_.getSharedPreferences().getString(RINGTONE_KEY, "").equals("")) {
 			ringtone_.setSummary(ringtone_.getSharedPreferences().getString(RINGTONE_KEY, ""));
 		}
-		
+
 		loud_ = (ListPreference) findPreference(LOUD_KEY);
 		if (!loud_.getSharedPreferences().getString(LOUD_KEY, "").equals("")) {
 			loud_.setSummary(loud_.getEntry());

@@ -1,4 +1,4 @@
-package com.example.preferences;
+package com.example.ringtonepreferences;
 
 import android.content.Context;
 import android.text.Editable;
