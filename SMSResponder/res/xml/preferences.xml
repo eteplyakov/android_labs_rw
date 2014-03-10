@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="general_settings"
+    android:title="@string/action_settings" >
+
+    <EditTextPreference
+        android:key="start_border"
+        android:title="@string/start_border" />
+    <EditTextPreference
+        android:key="end_border"
+        android:title="@string/end_border" />
+    <EditTextPreference
+        android:key="prefix"
+        android:title="@string/prefix" />
+    <EditTextPreference
+        android:key="postfix"
+        android:title="@string/postfix" />
+
+    <PreferenceScreen
+        android:key="number_list"
+        android:title="@string/numbers" >
+        <com.example.smsresponder.NumbersListPreference android:title="@string/numbers_list" />
+
+        <EditTextPreference
+            android:key="add_number"
+            android:title="@string/add_number" />
+    </PreferenceScreen>
+
+</PreferenceScreen>
