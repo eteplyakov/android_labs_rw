@@ -1,8 +1,8 @@
 package com.example.personallibrarycatalogue;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,67 +16,56 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ListActivity {
 
 	private ListView bookList_;
 	private Cursor cursor_;
-	private DataBaseHelper dataBase_;
-	private BooksCursorAdapter cursorAdapter_;
+	private LibraryCatalogueDatabaseOpenHelper dataBase_;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		dataBase_ = new DataBaseHelper(this);
-		cursor_ = dataBase_.getAllBooks();
-		if(cursor_.getCount()==0){
-			setContentView(R.layout.activity_no_book);
-		} else {
-			setContentView(R.layout.activity_main);
-			cursorAdapter_ = new BooksCursorAdapter(this, cursor_);
-			bookList_ = (ListView) findViewById(R.id.book_list);
-			bookList_.setAdapter(cursorAdapter_);
-			registerForContextMenu(bookList_);
-			bookList_.setOnItemClickListener(new OnItemClickListener() {
+		setContentView(R.layout.activity_main);
+		dataBase_ = LibraryCatalogueDatabaseOpenHelper.getInstance(this);
+		bookList_ = (ListView) findViewById(android.R.id.list);
+		setAdapter();
+		registerForContextMenu(bookList_);
+		bookList_.setOnItemClickListener(new OnItemClickListener() {
 
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					cursor_.moveToPosition(position);
-					Intent intent = ViewBookActivity.makeIntentViewBook(view.getContext(), cursor_.getInt(0));
-					startActivity(intent);
-				}
-			});
-		}
-		
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				cursor_.moveToPosition(position);
+				Intent intent = ViewBookActivity.makeIntentViewBook(view.getContext(),
+						cursor_.getInt(cursor_.getColumnIndex(LibraryCatalogueDatabaseOpenHelper.Library.ID)));
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		menu.setHeaderTitle(getString(R.string.item_menu_title));
-		menu.add(Menu.NONE, 0, 0, getString(R.string.edit));
-		menu.add(Menu.NONE, 1, 1, getString(R.string.delete));
+		getMenuInflater().inflate(R.menu.context, menu);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-		final int position = info.position;
+		cursor_.moveToPosition(info.position);
+		final int bookId = cursor_.getInt(cursor_.getColumnIndex(LibraryCatalogueDatabaseOpenHelper.Library.ID));
 		switch (item.getItemId()) {
-		case 0:
-			cursorAdapter_.getItem(position);
-			Intent intent = AddBookActivity.makeIntentEdit(this, position);
+		case R.id.edit_menu:
+			Intent intent = AddBookActivity.makeIntentEdit(this, bookId);
 			startActivity(intent);
 			break;
-		case 1:
+		case R.id.delete_menu:
 			new AlertDialog.Builder(this).setTitle(R.string.delete).setMessage(R.string.delete_question)
 					.setIcon(android.R.drawable.ic_dialog_alert)
 					.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
 						public void onClick(DialogInterface dialog, int whichButton) {
-							cursor_.moveToPosition(position);
-							int itemId = cursor_.getInt(0);
-							dataBase_.deleteBook(itemId);
-							Bundle tempBundle = new Bundle();
-							onCreate(tempBundle);
+							dataBase_.deleteBook(bookId);
+							setAdapter();
 						}
 					}).setNegativeButton(android.R.string.no, null).show();
 			break;
@@ -102,9 +91,14 @@ public class MainActivity extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
-	public void addBookClick(View view){
+
+	public void onAddBookClicked(View view) {
 		Intent intent = new Intent(this, AddBookActivity.class);
 		startActivity(intent);
+	}
+	
+	public void setAdapter(){
+		cursor_ = dataBase_.getAllBooks();
+		bookList_.setAdapter(new BooksCursorAdapter(this, cursor_));
 	}
 }

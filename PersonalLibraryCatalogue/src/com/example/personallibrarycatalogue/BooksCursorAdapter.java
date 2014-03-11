@@ -31,5 +31,4 @@ public class BooksCursorAdapter extends CursorAdapter {
 		title.setText(cursor.getString(2));
 		cover.setImageURI(Uri.parse(cursor.getString(3)));
 	}
-
 }

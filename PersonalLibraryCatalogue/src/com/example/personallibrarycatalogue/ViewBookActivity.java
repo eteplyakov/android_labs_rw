@@ -7,7 +7,6 @@ import android.widget.TextView;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 
 public class ViewBookActivity extends Activity {
 
@@ -37,14 +36,13 @@ public class ViewBookActivity extends Activity {
 		Intent intent = getIntent();
 		int bookId = intent.getIntExtra(BOOK_ID, 0);
 
-		DataBaseHelper dataBase = new DataBaseHelper(this);
-		Cursor cursor = dataBase.getBookById(bookId);
-		cursor.moveToFirst();
+		LibraryCatalogueDatabaseOpenHelper dataBase = LibraryCatalogueDatabaseOpenHelper.getInstance(this);
+		Book book = dataBase.getBookById(bookId);
 
-		author_.setText(cursor.getString(1));
-		title_.setText(cursor.getString(2));
-		bookCover_.setImageURI(Uri.parse(cursor.getString(3)));
-		description_.setText(cursor.getString(4));
-		setTitle(cursor.getString(1) + ": " + cursor.getString(2));
+		author_.setText(book.getAuthor());
+		title_.setText(book.getTitle());
+		bookCover_.setImageURI(Uri.parse(book.getCover()));
+		description_.setText(book.getDescription());
+		setTitle(book.getAuthor() + ": " + book.getTitle());
 	}
 }

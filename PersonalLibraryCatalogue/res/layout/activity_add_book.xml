@@ -63,7 +63,7 @@
         android:layout_below="@+id/cover"
         android:maxHeight="@dimen/book_cover_height"
         android:maxWidth="@dimen/book_cover_width"
-        android:onClick="coverImageClick"
+        android:onClick="coverImageClicked"
         android:src="@drawable/book" />
 
     <TextView
@@ -94,7 +94,7 @@
         android:layout_below="@+id/description_input"
         android:layout_marginTop="16dp"
         android:text="@string/save"
-        android:onClick="saveClick" />
+        android:onClick="onSaveClicked" />
 
     <Button
         android:id="@+id/cancel"
@@ -103,7 +103,7 @@
         android:layout_alignBaseline="@+id/save"
         android:layout_alignBottom="@+id/save"
         android:layout_alignRight="@+id/description_input"
-        android:onClick="cancelClick"
+        android:onClick="onCancelClicked"
         android:text="@string/cancel" />
 
 </RelativeLayout>
