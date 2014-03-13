@@ -27,8 +27,8 @@ public class BooksCursorAdapter extends CursorAdapter {
 		TextView title = (TextView) view.findViewById(R.id.item_title);
 		ImageView cover = (ImageView) view.findViewById(R.id.item_cover);
 
-		author.setText(cursor.getString(1));
-		title.setText(cursor.getString(2));
-		cover.setImageURI(Uri.parse(cursor.getString(3)));
+		author.setText(cursor.getString(cursor.getColumnIndex(LibraryCatalogueDatabaseOpenHelper.Library.AUTHOR)));
+		title.setText(cursor.getString(cursor.getColumnIndex(LibraryCatalogueDatabaseOpenHelper.Library.TITLE)));
+		cover.setImageURI(Uri.parse(cursor.getString(cursor.getColumnIndex(LibraryCatalogueDatabaseOpenHelper.Library.COVER))));
 	}
 }

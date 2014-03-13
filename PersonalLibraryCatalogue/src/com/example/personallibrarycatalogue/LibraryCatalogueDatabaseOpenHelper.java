@@ -16,7 +16,7 @@ public class LibraryCatalogueDatabaseOpenHelper extends SQLiteOpenHelper {
 		public static final String COVER = "cover";
 		public static final String DESCRIPTION = "description";
 	}
-	
+
 	private static final int DATABASE_VERSION = 1;
 	private static final String DATABASE_NAME = "LibraryCatalogue";
 
@@ -32,22 +32,18 @@ public class LibraryCatalogueDatabaseOpenHelper extends SQLiteOpenHelper {
 	private LibraryCatalogueDatabaseOpenHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
-	
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		String CREATE_TABLE = "CREATE TABLE " + Library.TABLE_NAME + "("
-							+ Library.ID + " INTEGER PRIMARY KEY,"
-							+ Library.AUTHOR + " TEXT,"
-							+ Library.TITLE + " TEXT,"
-							+ Library.COVER + " TEXT,"
-							+ Library.DESCRIPTION + " TEXT)";
+		String CREATE_TABLE = "CREATE TABLE " + Library.TABLE_NAME + "(" + Library.ID + " INTEGER PRIMARY KEY,"
+				+ Library.AUTHOR + " TEXT," + Library.TITLE + " TEXT," + Library.COVER + " TEXT," + Library.DESCRIPTION
+				+ " TEXT)";
 		db.execSQL(CREATE_TABLE);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE IF EXISTS " + Library.TABLE_NAME);
+		db.execSQL("DROP TABLE IF EXISTS library");
 		onCreate(db);
 	}
 
@@ -81,16 +77,16 @@ public class LibraryCatalogueDatabaseOpenHelper extends SQLiteOpenHelper {
 
 	public Cursor getAllBooks() {
 		SQLiteDatabase db = this.getWritableDatabase();
-		Cursor cursor = db.query(Library.TABLE_NAME,
-				new String[] { Library.ID, Library.AUTHOR, Library.TITLE, Library.COVER, Library.DESCRIPTION }, null, null, null, null,
-				Library.AUTHOR + " ASC");
+		Cursor cursor = db.query(Library.TABLE_NAME, new String[] { Library.ID, Library.AUTHOR, Library.TITLE,
+				Library.COVER, Library.DESCRIPTION }, null, null, null, null, Library.AUTHOR + " ASC");
 		return cursor;
 	}
 
 	public Book getBookById(int bookId) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		Cursor cursor = db.query(true, Library.TABLE_NAME, new String[] { Library.ID, Library.AUTHOR, Library.TITLE, Library.COVER,
-				Library.DESCRIPTION }, Library.ID + " = ?", new String[] { String.valueOf(bookId) }, null, null, null, null);
+		Cursor cursor = db.query(true, Library.TABLE_NAME, new String[] { Library.ID, Library.AUTHOR, Library.TITLE,
+				Library.COVER, Library.DESCRIPTION }, Library.ID + " = ?", new String[] { String.valueOf(bookId) },
+				null, null, null, null);
 		cursor.moveToFirst();
 		Book book = new Book(cursor.getString(cursor.getColumnIndex(Library.AUTHOR)), cursor.getString(cursor
 				.getColumnIndex(Library.TITLE)), cursor.getString(cursor.getColumnIndex(Library.COVER)),

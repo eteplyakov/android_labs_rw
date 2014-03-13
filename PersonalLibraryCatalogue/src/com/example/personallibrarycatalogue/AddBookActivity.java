@@ -119,16 +119,18 @@ public class AddBookActivity extends Activity {
 				dataBase.addBook(new Book(author_.getText().toString(), title_.getText().toString(), String
 						.valueOf(coverUri_), description_.getText().toString()));
 			}
-			Intent intent = new Intent(this, MainActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(intent);
+			Intent returnIntent = new Intent();
+			setResult(RESULT_OK, returnIntent);
+			finish();
 		} else {
 			Toast.makeText(this, R.string.error_message, Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	public void onCancelClicked(View view) {
-		super.onBackPressed();
+		Intent returnIntent = new Intent();
+		setResult(RESULT_CANCELED, returnIntent);
+		finish();
 	}
 
 }
