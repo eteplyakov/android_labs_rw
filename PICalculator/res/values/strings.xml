@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">PI calculator</string>
+    <string name="start">Start</string>
+    <string name="progress_text">Calculating PI with precision</string>
+    <string name="finish_text">Success! PI calculated with precision</string>
+    <string name="canceled_text">Calculation canceled!</string>
+    <string name="file_name">Calculated pi</string>
+    
+
+</resources>
