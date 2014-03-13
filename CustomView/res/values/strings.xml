@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Custom view</string>
+    <string name="onclick_toast_message">You clicked on custom view!</string>
+    <string name="imageless_item_top_line">Title of item</string>
+    <string name="imageless_item_bottom_line">Details of item without image.</string>
+    <string name="image_item_top_line">Item #</string>
+    <string name="image_item_bottom_line">Details of item with image.</string>
+</resources>
