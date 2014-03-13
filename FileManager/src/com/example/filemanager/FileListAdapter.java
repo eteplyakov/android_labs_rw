@@ -3,6 +3,7 @@ package com.example.filemanager;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
@@ -24,7 +25,7 @@ public class FileListAdapter extends ArrayAdapter<File> {
 
 	private ThumbCache cache_;
 
-	public FileListAdapter(Context context, int resource, File[] objects) {
+	public FileListAdapter(Context context, int resource, List<File> objects) {
 		super(context, resource, objects);
 		cache_ = new ThumbCache();
 	}

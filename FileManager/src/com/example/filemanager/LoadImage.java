@@ -68,21 +68,25 @@ class LoadImage extends AsyncTask<Object, Void, Bitmap> {
 			if (bitmap == null) {
 				Intent intent = new Intent();
 				intent.setAction(android.content.Intent.ACTION_VIEW);
-				String extension = MimeTypeMap.getFileExtensionFromUrl(file_.getAbsolutePath());
+				String fileName = file_.getName();
+				String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+				String type = null;
 				if (extension != null) {
 					MimeTypeMap mime = MimeTypeMap.getSingleton();
-					String type = mime.getMimeTypeFromExtension(extension);
-					intent.setType(type);
+					type = mime.getMimeTypeFromExtension(extension);
 				}
-				intent.setData(Uri.fromFile(file_));
-				final List<ResolveInfo> matches = context_.getPackageManager().queryIntentActivities(intent, 0);
-				for (ResolveInfo match : matches) {
-					icon = match.loadIcon(context_.getPackageManager());
-					break;
+				if (type != null) {
+					intent.setDataAndType(Uri.fromFile(file_), type);
+					final List<ResolveInfo> matches = context_.getPackageManager().queryIntentActivities(intent, 0);
+					for (ResolveInfo match : matches) {
+						icon = match.loadIcon(context_.getPackageManager());
+						break;
+					}
+					if (icon != null) {
+						bitmap = ((BitmapDrawable) icon).getBitmap();
+					}
 				}
-				if (icon != null) {
-					bitmap = ((BitmapDrawable) icon).getBitmap();
-				}
+
 			}
 		}
 		if (bitmap != null) {
