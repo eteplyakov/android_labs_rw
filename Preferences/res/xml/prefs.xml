@@ -3,41 +3,37 @@
 
     <CheckBoxPreference
         android:key="checkBox"
-        android:title="Enable" />
+        android:title="@string/enable" />
 
-    <RingtonePreference
-        android:ringtoneType="ringtone"
-        android:showSilent="true"
-        android:title="Ringtone" />
+    <com.example.preferences.SilentRingtonePreference
+        android:key="ringtone"
+        android:summary="@string/default_summary"
+        android:title="@string/ringtone" />
 
     <EditTextPreference
         android:key="username"
-        android:summary="Please enter your message"
-        android:title="Message" />
+        android:summary="@string/message_text"
+        android:title="@string/message" />
 
-    <PreferenceCategory android:title="Parameters" >
+    <PreferenceCategory android:title="@string/parameters" >
         <ListPreference
             android:entries="@array/listOptions"
             android:entryValues="@array/listValues"
-            android:key="listpref"
-            android:title="Loud level" />
+            android:key="loud"
+            android:summary="@string/default_summary"
+            android:title="@string/loud" />
     </PreferenceCategory>
 
     <com.example.preferences.SeekBarPreference
         android:defaultValue="100"
-        android:dialogMessage=""
-        android:key="duration"
+        android:key="level_duration"
         android:max="3000"
-        android:summary="Duration from 0 to 3000"
-        android:text=""
-        android:title="Duration of something" />
+        android:title="@string/duration" />
 
-    <PreferenceScreen
-        android:summary="some screen"
-        android:title="Pref screen" >
+    <PreferenceScreen android:title="@string/luck_control" >
         <CheckBoxPreference
-            android:key="checkBox"
-            android:title="Disable" />
+            android:key="luck"
+            android:title="@string/luck_enable" />
     </PreferenceScreen>
 
 </PreferenceScreen>
