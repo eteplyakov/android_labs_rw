@@ -7,6 +7,12 @@
     <string name="finish_text">Success! PI calculated with precision</string>
     <string name="canceled_text">Calculation canceled!</string>
     <string name="file_name">Calculated pi</string>
-    
+    <string name="saving_data">Saving data. Please, wait&#8230;</string>
+    <string name="not_progress">Press start.</string>
+    <string name="end_calculate_true">Pi correctly calculated!</string>
+    <string name="end_calculate_false">Pi calculated wrong!</string>
+    <string name="pi_label">Calculated PI(1K first characters):</string>
+    <string name="pi_sample">Calculated Pi will be there&#8230;</string>
+    <string name="time_sample">seconds</string>
 
 </resources>

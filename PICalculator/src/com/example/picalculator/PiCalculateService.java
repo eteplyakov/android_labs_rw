@@ -4,10 +4,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.math.BigInteger;
 
-import org.apfloat.*;
-import org.apfloat.internal.ApfloatInternalException;
+import org.apfloat.Apfloat;
+import org.apfloat.ApfloatMath;
+import org.apfloat.Apint;
+import org.apfloat.ApintMath;
 
 import android.app.Activity;
 import android.app.IntentService;
@@ -24,11 +25,16 @@ public class PiCalculateService extends IntentService {
 	private static final int NOTIFICATION_ID = 0;
 	private static final int MAX_PROGRESS = 100;
 	private static final String SERVICE_NAME = "PiCalculateService";
-	private static final String THOUSAND ="000";
+	private static final String THOUSAND = "000";
 	private static final String MILLION = "000000";
 
 	public static final String PRECISION_KEY = "precision";
 	public static final String RESULT_KEY = "result";
+	public static final String PROGRESS_KEY = "progress";
+	public static final String TIME_KEY = "time";
+
+	public static NotificationManager notifyManager_;
+	public static android.support.v4.app.NotificationCompat.Builder builder_;
 
 	private boolean stopFlag_;
 
@@ -41,153 +47,101 @@ public class PiCalculateService extends IntentService {
 		stopFlag_ = false;
 		String precisionString = intent.getStringExtra(PRECISION_KEY);
 		int precision = Integer.valueOf(precisionString.replace("K", THOUSAND).replace("M", MILLION));
-		
-		NotificationManager notifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		android.support.v4.app.NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-		builder.setAutoCancel(true);
-		builder.setContentTitle(getString(R.string.app_name))
+		int radix = 10;
+		notifyManager_ = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		builder_ = new NotificationCompat.Builder(this);
+		builder_.setAutoCancel(true);
+		builder_.setContentTitle(getString(R.string.app_name))
 				.setContentText(getString(R.string.progress_text) + " " + precisionString)
 				.setSmallIcon(R.drawable.ic_launcher);
 		Intent notificationIntent = new Intent(this, MainActivity.class);
+		notificationIntent.setAction(Intent.ACTION_MAIN);
+		notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-		builder.setContentIntent(contentIntent);
-		int progress = 0;
-		double stepProgress = precision / MAX_PROGRESS;
-		builder.setProgress(100, progress, false);
-		notifyManager.notify(0, builder.build());
+		builder_.setContentIntent(contentIntent);
+		builder_.setProgress(MAX_PROGRESS, 0, false);
+		notifyManager_.notify(NOTIFICATION_ID, builder_.build());
 		Intent inProgressIntent = new Intent(getPackageName());
 		inProgressIntent.putExtra(RESULT_KEY, Activity.RESULT_CANCELED);
 		inProgressIntent.putExtra(PRECISION_KEY, precisionString);
 		sendBroadcast(inProgressIntent);
+
+		long time = System.currentTimeMillis();
 		
-		try {
-			Apfloat sum = new Apfloat(0);
-			for (int k = 0; k < 10; k++) {
-				int thrk = 3 * k;
-				Apfloat a = ApintMath.factorial(6 * k);
-				a = a.multiply(ApintMath.pow(new Apint(-1), k));
-				Apfloat b = new Apfloat(545140134);
-				b = b.multiply(new Apfloat(k));
-				b = b.add(new Apfloat(13591409));
-				Apfloat c = ApintMath.factorial(thrk);
-				Apfloat d = ApintMath.factorial(k);
-				d = ApfloatMath.pow(d, 3);
-				Apfloat e = new Apfloat(640320);
-				e = ApfloatMath.pow(e, (thrk));
-				a = a.multiply(b);
-				c = c.multiply(d).multiply(e);
-				Apfloat div = a.divide(c.precision(precision));
-				sum = sum.add(div);
-				builder.setProgress(MAX_PROGRESS, (k + 1) * 10, false);
-				notifyManager.notify(NOTIFICATION_ID, builder.build());
-				sendBroadcast(inProgressIntent);
-				if (stopFlag_) {
-					break;
-				}
+		Apfloat sum = new Apfloat(0);
+		for (int k = 0; k < radix; k++) {
+			if (stopFlag_) {
+				break;
 			}
-			if (!stopFlag_) {
-				Apfloat f = new Apfloat(10005, precision);
-				f = ApfloatMath.sqrt(f);
-				f = f.divide(new Apfloat(42709344 * 100L));
-				Apfloat pi = ApfloatMath.pow(sum.multiply(f), -1);
-				writeToFile(pi.toString(), precisionString);
-			}
-		} catch (ApfloatInternalException ex) {
-			final BigInteger TWO = BigInteger.valueOf(2);
-			final BigInteger THREE = BigInteger.valueOf(3);
-			final BigInteger FOUR = BigInteger.valueOf(4);
-			final BigInteger SEVEN = BigInteger.valueOf(7);
+			int thrk = 3 * k;
+			Apfloat a = ApintMath.factorial(6 * k);
+			a = a.multiply(ApintMath.pow(new Apint(-1), k));
 
-			BigInteger q = BigInteger.ONE;
-			BigInteger r = BigInteger.ZERO;
-			BigInteger t = BigInteger.ONE;
-			BigInteger k = BigInteger.ONE;
-			BigInteger n = BigInteger.valueOf(3);
-			BigInteger l = BigInteger.valueOf(3);
+			Apfloat b = new Apfloat(545140134);
+			b = b.multiply(new Apfloat(k));
+			b = b.add(new Apfloat(13591409));
 
-			BigInteger nn, nr;
-			boolean first = true;
+			Apfloat c = ApintMath.factorial(thrk);
+			Apfloat d = ApintMath.factorial(k);
+			d = ApfloatMath.pow(d, 3);
+			Apfloat e = new Apfloat(640320);
+			e = ApfloatMath.pow(e, (thrk));
+			a = a.multiply(b);
+			c = c.multiply(d).multiply(e);
 
-			File file = new File(Environment.getExternalStorageDirectory(), getString(R.string.file_name) + " ("
-					+ precisionString + ").txt");
-			FileWriter writer = null;
-			try {
-				writer = new FileWriter(file);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			Apfloat div = a.divide(c.precision(precision));
+			sum = sum.add(div);
+			if (stopFlag_) {
+				break;
 			}
-			BufferedWriter out = new BufferedWriter(writer);
-			int iteration = 0;
-			while (true) {
-				if (FOUR.multiply(q).add(r).subtract(t).compareTo(n.multiply(t)) == -1) {
-					try {
-						out.append(n.toString());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					if (first) {
-						try {
-							out.append(".");
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						first = false;
-					}
-					nr = BigInteger.TEN.multiply(r.subtract(n.multiply(t)));
-					n = BigInteger.TEN.multiply(THREE.multiply(q).add(r)).divide(t)
-							.subtract(BigInteger.TEN.multiply(n));
-					q = q.multiply(BigInteger.TEN);
-					r = nr;
-					try {
-						out.flush();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				} else {
-					nr = TWO.multiply(q).add(r).multiply(l);
-					nn = q.multiply((SEVEN.multiply(k))).add(TWO).add(r.multiply(l)).divide(t.multiply(l));
-					q = q.multiply(k);
-					t = t.multiply(l);
-					l = l.add(TWO);
-					k = k.add(BigInteger.ONE);
-					n = nn;
-					r = nr;
-				}
-				sendBroadcast(inProgressIntent);
-				if (iteration > stepProgress) {
-					progress++;
-					stepProgress += precision / MAX_PROGRESS;
-					builder.setProgress(MAX_PROGRESS, progress, false);
-					notifyManager.notify(NOTIFICATION_ID, builder.build());
-				}
-				if (stopFlag_ || iteration == precision) {
-					break;
-				}
-				iteration++;
-			}
-			try {
-				out.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
+			Intent notificationIntentOnProgress = new Intent(this, MainActivity.class);
+			notificationIntentOnProgress.setAction(Intent.ACTION_MAIN);
+			notificationIntentOnProgress.addCategory(Intent.CATEGORY_LAUNCHER);
+			notificationIntentOnProgress.putExtra(PRECISION_KEY, precisionString);
+			notificationIntentOnProgress.putExtra(RESULT_KEY, Activity.RESULT_OK);
+			notificationIntentOnProgress.putExtra(PROGRESS_KEY, (k + 1) * 10);
+			PendingIntent contentIntentOnProgress = PendingIntent.getActivity(this, 0, notificationIntentOnProgress, PendingIntent.FLAG_UPDATE_CURRENT);
+			builder_.setContentIntent(contentIntentOnProgress);
+			
+			builder_.setProgress(MAX_PROGRESS, (k + 1) * 10, false);
+			notifyManager_.notify(0, builder_.build());
+			inProgressIntent.putExtra(PROGRESS_KEY, (int) ((k + 1) * 10));
+			sendBroadcast(inProgressIntent);
 		}
-		
-		
+
 		if (!stopFlag_) {
-			builder.setContentText(getString(R.string.finish_text) + " " + precisionString).setProgress(0, 0, false);
-			notifyManager.notify(NOTIFICATION_ID, builder.build());
+			builder_.setContentText(getString(R.string.saving_data)).setProgress(0, 0, false);
+			notifyManager_.notify(NOTIFICATION_ID, builder_.build());
+
+			Apfloat f = new Apfloat(10005, precision);
+			f = ApfloatMath.sqrt(f);
+			f = f.divide(new Apfloat(42709344 * 100L));
+			Apfloat pi = ApfloatMath.pow(sum.multiply(f), -1);
+
+			time = System.currentTimeMillis() - time;
+			
+			writeToFile(pi.toString(), precisionString);
+			
+			Intent notificationIntentOnFinish = new Intent(this, MainActivity.class);
+			notificationIntentOnFinish.setAction(Intent.ACTION_MAIN);
+			notificationIntentOnFinish.addCategory(Intent.CATEGORY_LAUNCHER);
+			notificationIntentOnFinish.putExtra(RESULT_KEY, Activity.RESULT_CANCELED);
+			notificationIntentOnFinish.putExtra(PRECISION_KEY, precisionString);
+			notificationIntentOnFinish.putExtra(TIME_KEY, String.valueOf(time/1000));
+			PendingIntent contentIntentOnFinish = PendingIntent.getActivity(this, 0, notificationIntentOnFinish, PendingIntent.FLAG_UPDATE_CURRENT);
+			builder_.setContentIntent(contentIntentOnFinish);
+			
+			builder_.setContentText(getString(R.string.finish_text) + " " + precisionString).setProgress(0, 0, false);
+			notifyManager_.notify(NOTIFICATION_ID, builder_.build());
+			Intent finishIntent = new Intent(getPackageName());
+			finishIntent.putExtra(PRECISION_KEY, precisionString);
+			finishIntent.putExtra(RESULT_KEY, Activity.RESULT_OK);
+			finishIntent.putExtra(TIME_KEY, String.valueOf(time/1000));
+			sendBroadcast(finishIntent);
 		} else {
-			builder.setContentText(getString(R.string.canceled_text)).setProgress(0, 0, false);
-			notifyManager.notify(NOTIFICATION_ID, builder.build());
+			notifyManager_.cancel(NOTIFICATION_ID);
 		}
-		Intent finishIntent = new Intent(getPackageName());
-		finishIntent.putExtra(RESULT_KEY, Activity.RESULT_OK);
-		sendBroadcast(finishIntent);
 	}
 
 	@Override
@@ -200,7 +154,7 @@ public class PiCalculateService extends IntentService {
 		try {
 			File root = Environment.getExternalStorageDirectory();
 			if (root.canWrite()) {
-				File file = new File(root, "calculated pi ("+precision+").txt");
+				File file = new File(root, "calculated pi (" + precision + ").txt");
 				FileWriter writer = new FileWriter(file);
 				BufferedWriter out = new BufferedWriter(writer);
 				out.write(data);
