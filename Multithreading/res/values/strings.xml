@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Multithreading</string>
+    <string name="thread">Add in thread</string>
+    <string name="async">Add in async task</string>
+    <string name="added">Added</string>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Ringtone Preferences</string>
+    <string name="enable">Enable</string>
+    <string name="ringtone">Ringtone</string>
+    <string name="duration">Loud level</string>
+    <string name="silent">Silent</string>
+</resources>
