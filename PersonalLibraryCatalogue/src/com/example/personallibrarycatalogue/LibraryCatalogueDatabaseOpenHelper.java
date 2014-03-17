@@ -15,9 +15,11 @@ public class LibraryCatalogueDatabaseOpenHelper extends SQLiteOpenHelper {
 		public static final String TITLE = "title";
 		public static final String COVER = "cover";
 		public static final String DESCRIPTION = "description";
+		public static final String YEAR = "year";
+		public static final String ISBN = "ISBN";
 	}
 
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	private static final String DATABASE_NAME = "LibraryCatalogue";
 
 	private static LibraryCatalogueDatabaseOpenHelper instance_;
@@ -35,9 +37,14 @@ public class LibraryCatalogueDatabaseOpenHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		String CREATE_TABLE = "CREATE TABLE " + Library.TABLE_NAME + "(" + Library.ID + " INTEGER PRIMARY KEY,"
-				+ Library.AUTHOR + " TEXT," + Library.TITLE + " TEXT," + Library.COVER + " TEXT," + Library.DESCRIPTION
-				+ " TEXT)";
+		String CREATE_TABLE = "CREATE TABLE " + Library.TABLE_NAME + "("
+				+ Library.ID + " INTEGER PRIMARY KEY,"
+				+ Library.AUTHOR + " TEXT, "
+				+ Library.TITLE + " TEXT, "
+				+ Library.COVER + " TEXT, "
+				+ Library.DESCRIPTION + " TEXT, "
+				+ Library.YEAR + " TEXT, "
+				+ Library.ISBN + " TEXT)";
 		db.execSQL(CREATE_TABLE);
 	}
 
