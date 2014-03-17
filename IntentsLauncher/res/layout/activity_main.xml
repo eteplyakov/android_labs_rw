@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    <Button
+        android:id="@+id/gallery_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onGalleryButtonClick"
+        android:text="@string/gallery" />
+
+    <Button
+        android:id="@+id/web_browser_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onBrowserButtonClick"
+        android:text="@string/web_browser" />
+
+    <Button
+        android:id="@+id/map_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onMapButtonClick"
+        android:text="@string/map" />
+
+    <Button
+        android:id="@+id/choose_image_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onImageButtonClick"
+        android:text="@string/choose_image" />
+
+    <Button
+        android:id="@+id/photo_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onPhotoButtonClick"
+        android:text="@string/take_a_foto" />
+
+    <Button
+        android:id="@+id/video_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onVideoButtonClick"
+        android:text="@string/take_a_video" />
+
+    <Button
+        android:id="@+id/audio_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onAudioButtonClick"
+        android:text="@string/record_audio" />
+
+    <ImageView
+        android:id="@+id/selected_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/image"
+        android:src="@android:drawable/editbox_background_normal" />
+
+</LinearLayout>
