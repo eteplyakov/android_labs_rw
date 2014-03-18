@@ -32,13 +32,13 @@ public class MainActivity extends FragmentActivity implements LoaderCallbacks<Cu
 
 		@Override
 		public Cursor loadInBackground() {
-			Uri books = Uri.parse("content://com.example.personallibrarycatalogue.Books/books");
-			Cursor cursor = getContext().getContentResolver().query(books, null, null, null, null);
+			Cursor cursor = getContext().getContentResolver().query(LibraryProvider.CONTENT_URI, null, null, null, null);
 			return cursor;
 		}
 	}
 
 	private static final int RESULT_CODE = 1;
+	private static final int LOADER_ID = 0;
 
 	private ListView bookList_;
 
@@ -54,7 +54,7 @@ public class MainActivity extends FragmentActivity implements LoaderCallbacks<Cu
 
 	@Override
 	public void onLoaderReset(android.support.v4.content.Loader<Cursor> arg0) {
-		// TODO Auto-generated method stub
+		((BooksCursorAdapter) bookList_.getAdapter()).swapCursor(null);
 	}
 
 	@Override
@@ -62,9 +62,11 @@ public class MainActivity extends FragmentActivity implements LoaderCallbacks<Cu
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		bookList_ = (ListView) findViewById(android.R.id.list);
+		bookList_.setEmptyView((View)findViewById(android.R.id.empty));
+		
 		bookList_.setAdapter(new BooksCursorAdapter(this, null));
 		registerForContextMenu(bookList_);
-		getSupportLoaderManager().initLoader(0, null, this);
+		getSupportLoaderManager().initLoader(LOADER_ID, null, this);
 		bookList_.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -101,9 +103,8 @@ public class MainActivity extends FragmentActivity implements LoaderCallbacks<Cu
 					.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
 						public void onClick(DialogInterface dialog, int whichButton) {
-							LibraryCatalogueDatabaseOpenHelper.getInstance(MainActivity.this.getBaseContext())
-									.deleteBook(bookId);
-							getSupportLoaderManager().getLoader(0).forceLoad();
+							getContentResolver().delete(Uri.parse(LibraryProvider.URI + "/" + bookId), null, null);
+							getSupportLoaderManager().getLoader(LOADER_ID).forceLoad();
 						}
 					}).setNegativeButton(android.R.string.no, null).show();
 			break;
@@ -116,8 +117,8 @@ public class MainActivity extends FragmentActivity implements LoaderCallbacks<Cu
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == RESULT_CODE) {
 			if (resultCode == Activity.RESULT_OK) {
-				getSupportLoaderManager().getLoader(0).forceLoad();
-				
+				getSupportLoaderManager().getLoader(LOADER_ID).forceLoad();
+
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
@@ -145,5 +146,4 @@ public class MainActivity extends FragmentActivity implements LoaderCallbacks<Cu
 		startActivityForResult(intent, RESULT_CODE);
 	}
 
-	
 }

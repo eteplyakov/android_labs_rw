@@ -8,50 +8,29 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".AddBookActivity" >
 
-    <TextView
-        android:id="@+id/author"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/author"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_alignBaseline="@+id/save"
+        android:layout_alignBottom="@+id/save"
+        android:layout_alignRight="@+id/description_input"
+        android:onClick="onCancelClicked"
+        android:text="@string/cancel" />
 
-    <EditText
-        android:id="@+id/author_input"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/save"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/author"
-        android:ems="10" >
-    </EditText>
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/author_input"
-        android:layout_marginTop="16dp"
-        android:text="@string/title"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <EditText
-        android:id="@+id/title_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/title"
-        android:layout_below="@+id/title"
-        android:ems="10" >
-    </EditText>
+        android:layout_alignLeft="@+id/description_input"
+        android:layout_alignParentBottom="true"
+        android:onClick="onSaveClicked"
+        android:text="@string/save" />
 
     <TextView
         android:id="@+id/cover"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/title_input"
-        android:layout_below="@+id/title_input"
-        android:layout_marginTop="16dp"
         android:text="@string/cover"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -66,44 +45,57 @@
         android:onClick="coverImageClicked"
         android:src="@drawable/book" />
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/author_input"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/cover_image"
         android:layout_below="@+id/cover_image"
-        android:layout_marginTop="16dp"
-        android:text="@string/description"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:ems="10"
+        android:hint="@string/author" />
+
+    <EditText
+        android:id="@+id/title_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/author_input"
+        android:layout_below="@+id/author_input"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="@string/title" >
+    </EditText>
 
     <EditText
         android:id="@+id/description_input"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/description"
-        android:layout_below="@+id/description"
+        android:layout_alignLeft="@+id/title_input"
+        android:layout_below="@+id/title_input"
+        android:layout_marginTop="10dp"
         android:ems="10"
-        android:inputType="textMultiLine" >
-    </EditText>
+        android:hint="@string/description"
+        android:inputType="textMultiLine" />
 
-    <Button
-        android:id="@+id/save"
-        android:layout_width="100dp"
+    <EditText
+        android:id="@+id/year_input"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/description_input"
-        android:layout_below="@+id/description_input"
-        android:layout_marginTop="16dp"
-        android:text="@string/save"
-        android:onClick="onSaveClicked" />
-
-    <Button
-        android:id="@+id/cancel"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/save"
-        android:layout_alignBottom="@+id/save"
         android:layout_alignRight="@+id/description_input"
-        android:onClick="onCancelClicked"
-        android:text="@string/cancel" />
+        android:layout_below="@+id/description_input"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="@string/year" />
+
+    <EditText
+        android:id="@+id/isbn_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/year_input"
+        android:layout_alignRight="@+id/year_input"
+        android:layout_below="@+id/year_input"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="@string/isbn" />
 
 </RelativeLayout>

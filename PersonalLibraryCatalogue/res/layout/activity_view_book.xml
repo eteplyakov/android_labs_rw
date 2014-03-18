@@ -75,4 +75,44 @@
         android:text="@string/description"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <TextView
+        android:id="@+id/year_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/description_label"
+        android:layout_below="@+id/description_label"
+        android:text="@string/year_label"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/year_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/year_label"
+        android:layout_alignBottom="@+id/year_label"
+        android:layout_toRightOf="@+id/year_label"
+        android:text="@string/year"
+        android:layout_marginLeft="5dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/isbn_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/year_label"
+        android:layout_below="@+id/year_label"
+        android:text="@string/isbn_label"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/isbn_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/isbn_label"
+        android:layout_alignBottom="@+id/isbn_label"
+        android:layout_toRightOf="@+id/isbn_label"
+        android:layout_marginLeft="5dp"
+        android:text="@string/isbn"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
 </RelativeLayout>

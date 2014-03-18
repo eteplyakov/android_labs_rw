@@ -15,8 +15,8 @@ import android.text.TextUtils;
 public class LibraryProvider extends ContentProvider {
 
 	static final String PROVIDER_NAME = "com.example.personallibrarycatalogue.Books";
-	static final String URL = "content://" + PROVIDER_NAME + "/books";
-	static final Uri CONTENT_URI = Uri.parse(URL);
+	static final String URI = "content://" + PROVIDER_NAME + "/books";
+	static final Uri CONTENT_URI = Uri.parse(URI);
 
 	static final int BOOKS = 1;
 	static final int BOOKS_ID = 2;
@@ -46,6 +46,7 @@ public class LibraryProvider extends ContentProvider {
 			break;
 		case BOOKS_ID:
 			queryBuilder.appendWhere(LibraryCatalogueDatabaseOpenHelper.Library.ID + "=" + uri.getLastPathSegment());
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
