@@ -13,6 +13,8 @@
     <string name="select_cover">Select book cover</string>
     <string name="description">Description</string>
     <string name="description_label">Description:</string>
+    <string name="year">Year</string>
+    <string name="isbn">ISBN</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="item_menu_title">Menu</string>
@@ -20,6 +22,9 @@
     <string name="edit">Edit book</string>
     <string name="delete_question">Delete this book from library?</string>
     <string name="title_activity_view_book">View Book Activity</string>
-    <string name="error_message">All fields must be filled!</string>
+    <string name="error_blank">This field can not be blank</string>
+    <string name="error_year">This field must be filled in format "YYYY"</string>
+    <string name="year_label">Year:</string>
+    <string name="isbn_label">ISBN:</string>
 
 </resources>

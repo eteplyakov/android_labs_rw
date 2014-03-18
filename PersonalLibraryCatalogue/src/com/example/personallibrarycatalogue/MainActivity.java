@@ -1,12 +1,17 @@
 package com.example.personallibrarycatalogue;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ListActivity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -17,20 +22,51 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends FragmentActivity implements LoaderCallbacks<Cursor> {
+
+	static class BooksCursorLoader extends CursorLoader {
+
+		public BooksCursorLoader(Context context) {
+			super(context);
+		}
+
+		@Override
+		public Cursor loadInBackground() {
+			Cursor cursor = getContext().getContentResolver().query(LibraryProvider.CONTENT_URI, null, null, null, null);
+			return cursor;
+		}
+	}
 
 	private static final int RESULT_CODE = 1;
+	private static final int LOADER_ID = 0;
 
 	private ListView bookList_;
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+		return new BooksCursorLoader(this);
+	}
+
+	@Override
+	public void onLoadFinished(android.support.v4.content.Loader<Cursor> arg0, Cursor arg1) {
+		((BooksCursorAdapter) bookList_.getAdapter()).changeCursor(arg1);
+	}
+
+	@Override
+	public void onLoaderReset(android.support.v4.content.Loader<Cursor> arg0) {
+		((BooksCursorAdapter) bookList_.getAdapter()).swapCursor(null);
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		bookList_ = (ListView) findViewById(android.R.id.list);
-		Cursor cursor = LibraryCatalogueDatabaseOpenHelper.getInstance(this).getAllBooks();
-		bookList_.setAdapter(new BooksCursorAdapter(this, cursor));
+		bookList_.setEmptyView((View)findViewById(android.R.id.empty));
+		
+		bookList_.setAdapter(new BooksCursorAdapter(this, null));
 		registerForContextMenu(bookList_);
+		getSupportLoaderManager().initLoader(LOADER_ID, null, this);
 		bookList_.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -67,11 +103,8 @@ public class MainActivity extends ListActivity {
 					.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
 						public void onClick(DialogInterface dialog, int whichButton) {
-							LibraryCatalogueDatabaseOpenHelper.getInstance(MainActivity.this.getBaseContext())
-									.deleteBook(bookId);
-							Cursor newCursor = LibraryCatalogueDatabaseOpenHelper.getInstance(
-									MainActivity.this.getBaseContext()).getAllBooks();
-							((BooksCursorAdapter) bookList_.getAdapter()).changeCursor(newCursor);
+							getContentResolver().delete(Uri.parse(LibraryProvider.URI + "/" + bookId), null, null);
+							getSupportLoaderManager().getLoader(LOADER_ID).forceLoad();
 						}
 					}).setNegativeButton(android.R.string.no, null).show();
 			break;
@@ -84,8 +117,8 @@ public class MainActivity extends ListActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == RESULT_CODE) {
 			if (resultCode == Activity.RESULT_OK) {
-				Cursor newCursor = LibraryCatalogueDatabaseOpenHelper.getInstance(this).getAllBooks();
-				((BooksCursorAdapter) bookList_.getAdapter()).changeCursor(newCursor);
+				getSupportLoaderManager().getLoader(LOADER_ID).forceLoad();
+
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
@@ -112,4 +145,5 @@ public class MainActivity extends ListActivity {
 		Intent intent = new Intent(this, AddBookActivity.class);
 		startActivityForResult(intent, RESULT_CODE);
 	}
+
 }
