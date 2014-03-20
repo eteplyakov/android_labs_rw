@@ -52,7 +52,10 @@
         android:layout_alignLeft="@+id/cover_image"
         android:layout_below="@+id/cover_image"
         android:ems="10"
-        android:hint="@string/author" />
+        android:hint="@string/author"
+        android:imeOptions="actionNext"
+        android:maxLines="1"
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/title_input"
@@ -62,7 +65,10 @@
         android:layout_below="@+id/author_input"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="@string/title" >
+        android:hint="@string/title"
+        android:imeOptions="actionNext"
+        android:maxLines="1"
+        android:singleLine="true" >
     </EditText>
 
     <EditText
@@ -74,7 +80,9 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="@string/description"
-        android:inputType="textMultiLine" />
+        android:imeOptions="actionNext"
+        android:maxLines="1"
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/year_input"
@@ -85,7 +93,10 @@
         android:layout_below="@+id/description_input"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="@string/year" />
+        android:hint="@string/year"
+        android:imeOptions="actionNext"
+        android:maxLines="1"
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/isbn_input"
@@ -96,6 +107,9 @@
         android:layout_below="@+id/year_input"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="@string/isbn" />
+        android:hint="@string/isbn"
+        android:imeOptions="actionDone"
+        android:maxLines="1"
+        android:singleLine="true" />
 
 </RelativeLayout>

@@ -41,6 +41,7 @@ public class ViewBookActivity extends FragmentActivity implements LoaderCallback
 	private TextView author_;
 	private TextView title_;
 	private TextView description_;
+	private TextView descriptionLabel_;
 	private TextView year_;
 	private TextView yearLabel_;
 	private TextView isbn_;
@@ -66,6 +67,10 @@ public class ViewBookActivity extends FragmentActivity implements LoaderCallback
 		bookCover_.setImageURI(Uri.parse(cursor.getString(cursor.getColumnIndex(Library.COVER))));
 		setTitle(cursor.getString(cursor.getColumnIndex(Library.AUTHOR)) + ": " + cursor.getString(cursor.getColumnIndex(Library.TITLE)));
 		year_.setText(cursor.getString(cursor.getColumnIndex(Library.YEAR)));
+		if(TextUtils.isEmpty(description_.getText().toString())){
+			description_.setVisibility(TextView.GONE);
+			descriptionLabel_.setVisibility(TextView.GONE);
+		}
 		if(TextUtils.isEmpty(year_.getText().toString())){
 			year_.setVisibility(TextView.GONE);
 			yearLabel_.setVisibility(TextView.GONE);
@@ -96,6 +101,7 @@ public class ViewBookActivity extends FragmentActivity implements LoaderCallback
 		isbn_ = (TextView) findViewById(R.id.isbn_view);
 		yearLabel_ = (TextView) findViewById(R.id.year_label);
 		isbnLabel_ = (TextView) findViewById(R.id.isbn_label);
+		descriptionLabel_ = (TextView) findViewById(R.id.description_label);
 
 		Intent intent = getIntent();
 		bookId_ = intent.getIntExtra(BOOK_ID, 0);

@@ -12,8 +12,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 
@@ -27,8 +29,7 @@ public class AddBookActivity extends FragmentActivity implements LoaderCallbacks
 
 		@Override
 		public Cursor loadInBackground() {
-			Uri books = Uri.parse(LibraryProvider.URI+ "/"
-					+ AddBookActivity.bookId_);
+			Uri books = Uri.parse(LibraryProvider.URI + "/" + AddBookActivity.bookId_);
 			Cursor cursor = getContext().getContentResolver().query(books, null, null, null, null);
 			return cursor;
 		}
@@ -139,10 +140,29 @@ public class AddBookActivity extends FragmentActivity implements LoaderCallbacks
 	}
 
 	public void coverImageClicked(View view) {
-		Intent intent = new Intent();
-		intent.setType(IMAGE_TYPE);
-		intent.setAction(Intent.ACTION_GET_CONTENT);
-		startActivityForResult(Intent.createChooser(intent, getString(R.string.select_cover)), SELECT_PICTURE);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+		alertDialogBuilder.setTitle(R.string.choose_cover);
+
+		alertDialogBuilder.setMessage(R.string.choose_cover_message).setCancelable(false)
+
+		.setPositiveButton(R.string.from_gallery, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				Intent intent = new Intent();
+				intent.setType(IMAGE_TYPE);
+				intent.setAction(Intent.ACTION_GET_CONTENT);
+				startActivityForResult(Intent.createChooser(intent, getString(R.string.select_cover)), SELECT_PICTURE);
+			}
+
+		}).setNegativeButton(R.string.default_cover, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				coverUri_ = null;
+				bookCover_.setImageResource(R.drawable.book);
+			}
+		});
+
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
 	}
 
 	public void onSaveClicked(View view) {
@@ -159,9 +179,7 @@ public class AddBookActivity extends FragmentActivity implements LoaderCallbacks
 				values.put(LibraryCatalogueDatabaseOpenHelper.Library.COVER, coverUri_.toString());
 				values.put(LibraryCatalogueDatabaseOpenHelper.Library.YEAR, year_.getText().toString());
 				values.put(LibraryCatalogueDatabaseOpenHelper.Library.ISBN, isbn_.getText().toString());
-				getContentResolver().update(
-						Uri.parse(LibraryProvider.URI + "/" + bookId_), values,
-						null, null);
+				getContentResolver().update(Uri.parse(LibraryProvider.URI + "/" + bookId_), values, null, null);
 			} else {
 				ContentValues values = new ContentValues();
 				values.put(LibraryCatalogueDatabaseOpenHelper.Library.AUTHOR, author_.getText().toString());
@@ -194,11 +212,7 @@ public class AddBookActivity extends FragmentActivity implements LoaderCallbacks
 			title_.setError(getString(R.string.error_blank));
 			result = false;
 		}
-		if (TextUtils.isEmpty(description_.getText())) {
-			description_.setError(getString(R.string.error_blank));
-			result = false;
-		}
-		if (!year_.getText().toString().matches("\\d{4}")) {
+		if (!TextUtils.isDigitsOnly(year_.getText().toString())) {
 			if (!TextUtils.isEmpty(year_.getText())) {
 				year_.setError(getString(R.string.error_year));
 				result = false;

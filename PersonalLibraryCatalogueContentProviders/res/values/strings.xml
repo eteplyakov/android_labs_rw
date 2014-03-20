@@ -23,8 +23,12 @@
     <string name="delete_question">Delete this book from library?</string>
     <string name="title_activity_view_book">View Book Activity</string>
     <string name="error_blank">This field can not be blank</string>
-    <string name="error_year">This field must be filled in format "YYYY"</string>
+    <string name="error_year">This field must be filled digits only</string>
     <string name="year_label">Year:</string>
     <string name="isbn_label">ISBN:</string>
+    <string name="choose_cover">Choose cover</string>
+    <string name="choose_cover_message">Cover from gallery or default app\'s cover?</string>
+    <string name="from_gallery">From gallery</string>
+    <string name="default_cover">Default</string>
 
 </resources>
