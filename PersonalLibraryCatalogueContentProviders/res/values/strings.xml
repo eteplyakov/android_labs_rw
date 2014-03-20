@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Personal Library Catalogue</string>
+    <string name="add_new_book">Add new book</string>
+    <string name="no_book">There are no books in library</string>
+    <string name="title_activity_add_book">Add Book</string>
+    <string name="author">Author</string>
+    <string name="author_label">Author:</string>
+    <string name="title">Title</string>
+    <string name="title_label">Title:</string>
+    <string name="cover">Cover</string>
+    <string name="select_cover">Select book cover</string>
+    <string name="description">Description</string>
+    <string name="description_label">Description:</string>
+    <string name="year">Year</string>
+    <string name="isbn">ISBN</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="item_menu_title">Menu</string>
+    <string name="delete">Delete book</string>
+    <string name="edit">Edit book</string>
+    <string name="delete_question">Delete this book from library?</string>
+    <string name="title_activity_view_book">View Book Activity</string>
+    <string name="error_blank">This field can not be blank</string>
+    <string name="error_year">This field must be filled digits only</string>
+    <string name="year_label">Year:</string>
+    <string name="isbn_label">ISBN:</string>
+    <string name="choose_cover">Choose cover</string>
+    <string name="choose_cover_message">Cover from gallery or default app\'s cover?</string>
+    <string name="from_gallery">From gallery</string>
+    <string name="default_cover">Default</string>
+
+</resources>
