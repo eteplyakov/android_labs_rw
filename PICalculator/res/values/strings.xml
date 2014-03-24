@@ -14,5 +14,7 @@
     <string name="pi_label">Calculated PI(1K first characters):</string>
     <string name="pi_sample">Calculated Pi will be there&#8230;</string>
     <string name="time_sample">seconds</string>
+    <string name="error">Reading file error!</string>
+    <string name="in_progress">Calculating in progress&#8230;</string>
 
 </resources>

@@ -13,18 +13,5 @@
         <item>8M</item>
         <item>16M</item>
     </string-array>
-    
-    <string-array name="precisions_md5">
-        <item>61EFA066AA2C3E7AFC8A557673574C7C</item>
-        <item>FD50018108E062D62358EAB98D321428</item>
-        <item>DAB846C485F7BF1446FB26C24C28AB08</item>
-        <item>BAE1D0CB5680BEBE4E5A9C0C341381A0</item>
-        <item>22C6C559EA1EED739DD0DCC1CB952C39</item>
-        <item>9F04A51FA99821415C07A25EEB509896</item>
-        <item>CB7F9AC6E9B8E5D37D7150F8CDA6BDA6</item>
-        <item>C5AE4B2B65EC1701CA6EBEE11B4DC833</item>
-        <item>838537DC777AA065B35F39BEE22684C3</item>
-        <item>2B8548FFFC0C4D9AF002C917EE04F292</item>
-    </string-array>
 
 </resources>

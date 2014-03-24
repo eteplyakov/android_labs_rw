@@ -24,8 +24,6 @@ import org.apfloat.spi.DataStorage;
 import org.apfloat.spi.FilenameGenerator;
 import org.apfloat.spi.MatrixStrategy;
 
-import android.os.Environment;
-
 /**
  * Abstract base class for disk-based data storage, containing the common
  * functionality independent of the element type.
@@ -54,8 +52,9 @@ public abstract class DiskDataStorage
 
             this.filename = generator.generateFilename();
 
-			File folder = new File(Environment.getExternalStorageDirectory().toString() + "/cash_pi");
-            folder.mkdirs();
+			File folder = com.example.picalculator.PiCalculateService.appContext_
+					.getExternalFilesDir("calculated_pi_values");
+			folder.mkdirs();
 
             String extStorageDirectory = folder.toString();
             
