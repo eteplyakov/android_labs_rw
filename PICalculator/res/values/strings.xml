@@ -8,13 +8,14 @@
     <string name="canceled_text">Calculation canceled!</string>
     <string name="file_name">Calculated pi</string>
     <string name="saving_data">Saving data. Please, wait&#8230;</string>
-    <string name="not_progress">Press start.</string>
-    <string name="end_calculate_true">Pi correctly calculated!</string>
-    <string name="end_calculate_false">Pi calculated wrong!</string>
-    <string name="pi_label">Calculated PI(1K first characters):</string>
-    <string name="pi_sample">Calculated Pi will be there&#8230;</string>
     <string name="time_sample">seconds</string>
     <string name="error">Reading file error!</string>
     <string name="in_progress">Calculating in progress&#8230;</string>
+    <string name="done">Calculated in</string>
+    <string name="in_progress_end">% done</string>
+    <string name="precision_sample">32K</string>
+    <string name="context_menu_title">Menu</string>
+    <string name="recalculate">Recalculate</string>
+    <string name="share">Share file with PI</string>
 
 </resources>
