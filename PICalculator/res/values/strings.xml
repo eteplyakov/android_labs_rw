@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">PI calculator</string>
+    <string name="start">Start</string>
+    <string name="progress_text">Calculating PI with precision</string>
+    <string name="finish_text">Success! PI calculated with precision</string>
+    <string name="canceled_text">Calculation canceled!</string>
+    <string name="file_name">Calculated pi</string>
+    <string name="saving_data">Saving data. Please, wait&#8230;</string>
+    <string name="time_sample">seconds</string>
+    <string name="error">Reading file error!</string>
+    <string name="in_progress">Calculating in progress&#8230;</string>
+    <string name="done">Calculated in</string>
+    <string name="in_progress_end">% done</string>
+    <string name="precision_sample">32K</string>
+    <string name="context_menu_title">Menu</string>
+    <string name="recalculate">Recalculate</string>
+    <string name="share">Share file with PI</string>
+
+</resources>
