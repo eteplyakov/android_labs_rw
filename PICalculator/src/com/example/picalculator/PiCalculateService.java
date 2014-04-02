@@ -219,24 +219,33 @@ public class PiCalculateService extends IntentService {
 		super.onDestroy();
 	}
 
-	public void callback(int value) {
+	public void callback(final int value) {
 		if (!stopFlag_) {
-			final Intent notificationIntentOnProgress = new Intent(this, MainActivity.class);
-			notificationIntentOnProgress.setAction(Intent.ACTION_MAIN);
-			notificationIntentOnProgress.addCategory(Intent.CATEGORY_LAUNCHER);
+			new Thread() {
 
-			PendingIntent contentIntentOnProgress = PendingIntent.getActivity(getApplicationContext(), 0,
-					notificationIntentOnProgress, PendingIntent.FLAG_UPDATE_CURRENT);
+				@Override
+				public void run() {
+					super.run();
+					Intent notificationIntentOnProgress = new Intent(getApplicationContext(), MainActivity.class);
+					notificationIntentOnProgress.setAction(Intent.ACTION_MAIN);
+					notificationIntentOnProgress.addCategory(Intent.CATEGORY_LAUNCHER);
 
-			builder_.setContentIntent(contentIntentOnProgress);
-			builder_.setProgress(MAX_PROGRESS, value, false);
-			notifyManager_.notify(0, builder_.build());
+					PendingIntent contentIntentOnProgress = PendingIntent.getActivity(getApplicationContext(), 0,
+							notificationIntentOnProgress, PendingIntent.FLAG_UPDATE_CURRENT);
 
-			ContentValues progressValue = new ContentValues();
-			progressValue.put(PICalculatorDatabaseOpenHelper.PiResults.PROGRESS, String.valueOf(value));
+					builder_.setContentIntent(contentIntentOnProgress);
+					builder_.setProgress(MAX_PROGRESS, value, false);
+					notifyManager_.notify(0, builder_.build());
 
-			getContentResolver().update(Uri.parse(PiResultsProvider.CONTENT_URI.toString() + "/" + presicionId_),
-					progressValue, null, null);
+					ContentValues progressValue = new ContentValues();
+					progressValue.put(PICalculatorDatabaseOpenHelper.PiResults.PROGRESS, String.valueOf(value));
+
+					getContentResolver().update(Uri.parse(PiResultsProvider.CONTENT_URI.toString() + "/" + presicionId_),
+							progressValue, null, null);
+				}
+				
+			}.start();
+			
 		}
 	}
 
